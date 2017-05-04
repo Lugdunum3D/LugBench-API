@@ -1,13 +1,16 @@
 {
-  "name": "lugdunum-benchmarking",
+  "name": "lugdbench-api",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">=6.10x"
+  },
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Lugdunum3D",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.16.1",
