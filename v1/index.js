@@ -1,26 +1,26 @@
 'use strict';
 
 var express = require('express');
-var router = express.Router();
 var mongoose = require('mongoose');
-var gpu = (require('./models/gpu'))();
+
+var Gpu = require('./models/gpu');
+var router = express.Router();
 
 router.put('/gpus', (req, res) => {
-    gpu(req.body).save().then((doc) => {
-        res.send({
-            data: doc,
-            status: 200
+    var newGpu = new Gpu(req.body);
+    newGpu.save().then((doc) => {
+        res.status(200).send({
+            data: doc
         });
     }, (err) => {
-        res.send({
-            err: err,
-            status: 500
+        res.status(500).send({
+            err: err
         });
     });
 });
 
 router.get('/gpus', (req, res) => {
-    gpu.find().then((doc) => {
+    Gpu.find().then((doc) => {
         res.status(200).send({
             data: doc
         });
@@ -30,11 +30,10 @@ router.get('/gpus', (req, res) => {
 router.get('/gpus/:id', (req, res) => {
     let id = req.params.id;
 
-    gpu.findOne({
+    Gpu.findOne({
         '_id': mongoose.Types.ObjectId(id)
     }).then((doc) => {
-        res.send({
-            status: 200,
+        res.status(200).send({
             data: doc
         });
     });

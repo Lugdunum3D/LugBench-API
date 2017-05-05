@@ -7,7 +7,7 @@ module.exports = function(req, res, next) {
         version(req, res, next);
     } catch (e) {
         if (e.code == "MODULE_NOT_FOUND") {
-            res.sendFile(__dirname + '/notfound.html');
+            res.send(405);
         } else {
             res.send(e.code);
         }

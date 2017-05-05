@@ -1,11 +1,13 @@
-module.exports = function (mongoose) {
+'use strict';
+
+module.exports = (mongoose) => {
     function Uint12(key, options) {
         mongoose.SchemaType.call(this, key, options, 'Uint12');
     };
 
     Uint12.prototype = Object.create(mongoose.SchemaType.prototype);
 
-    Uint12.prototype.cast = function (val) {
+    Uint12.prototype.cast = (val) => {
         let _val = Number(val);
 
         if (isNaN(_val)) {

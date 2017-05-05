@@ -11,13 +11,14 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lugdunum3D",
-  "license": "ISC",
+  "license": "https://github.com/Lugdunum3D/LugBench-API/master/LICENSE",
   "dependencies": {
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
     "mongoose": "^4.8.3"
   },
   "devDependencies": {
+    "mocha": "^3.3.0",
     "morgan": "^1.8.1"
   }
 }
