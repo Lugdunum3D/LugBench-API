@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "engines": {
-    "node": ">=6.10x"
+    "node": ">=6.10x",
+    "npm": ">=4.5x"
   },
   "main": "server.js",
   "scripts": {
@@ -13,12 +14,11 @@
   "author": "Lugdunum3D",
   "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.16.1",
-    "express": "^4.14.1",
-    "mongoose": "^4.8.3"
-  },
-  "devDependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
     "mocha": "^3.3.0",
+    "mongoose": "^4.9.7",
     "morgan": "^1.8.1"
-  }
+  },
+  "devDependencies": {}
 }
