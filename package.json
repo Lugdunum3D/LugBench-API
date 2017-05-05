@@ -11,7 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Lugdunum3D",
-  "license": "https://github.com/Lugdunum3D/LugBench-API/master/LICENSE",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.16.1",
     "express": "^4.14.1",
