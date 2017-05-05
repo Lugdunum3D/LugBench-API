@@ -8,13 +8,12 @@ var morgan = require('morgan');
 var config = require('./config');
 var server = express();
 
-var api = require('./index.js');
+var api = require('./index');
 
 mongoose.connect(config.mongodb_uri, (err) => {
-    console.log(err || ("Successfully connected to the db"));
 
     // CORS
-    server.use(function(req, res, next) {
+    server.use((_, res, next) => {
         // Website you wish to allow to connect
         res.setHeader('Access-Control-Allow-Origin', '*');
         // Request methods you wish to allow
@@ -30,7 +29,7 @@ mongoose.connect(config.mongodb_uri, (err) => {
 
     server.use(morgan(':method :url | :status | :response-time ms'));
     server.use(express.static(__dirname));
-    server.use(bodyparser.json());
+    server.use(bodyparser.json({limit: '50mb'}));
     server.use('/api/:version', api);
 
     server.get('/', (req, res) => {
