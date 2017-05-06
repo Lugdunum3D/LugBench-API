@@ -9,6 +9,7 @@ var config = require('./config');
 var server = express();
 
 var api = require('./index');
+var middleware = require('./middleware');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb_uri, (err) => {
@@ -35,6 +36,7 @@ mongoose.connect(config.mongodb_uri, (err) => {
     server.use(morgan(':method :url | :status | :response-time ms'));
     server.use(express.static(__dirname));
     server.use(bodyparser.json({limit: '50mb'}));
+    server.use('/api/', middleware);
     server.use('/api/:version', api);
 
     server.get('/', (req, res) => {
