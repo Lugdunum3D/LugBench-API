@@ -1,5 +1,12 @@
 # LugBench-API
 
+## Table of contents
+- [Prerequisites](#prerequisites)
+- [Clone the repository](#clone-the-repository)
+- [Installation](#installation)
+- [Run the API](#run-the-api)
+- [Routes](#routes)
+
 # Prerequisites
 
 Program | Version
@@ -9,36 +16,42 @@ npm     | >= 4.5x
 
 # Clone the repository
 
-```shell=
-git clone git@github.com:Lugdunum3D/LugBench-API.git
+Download the project [here](https://github.com/Lugdunum3D/LugBench-API/archive/dev.zip)
+
+**OR**
+
+Clone the repository
+```
+git clone https://github.com/Lugdunum3D/LugBench-API.git
 ```
 
 # Installation
 
 This command line below will install all dependencies you need to run the project.
-```shell=
+```bash
 npm install
 ```
 
-# Running the API in *http://localhost:5000*
+# Run the API
 
-```shell=
+To start the API, type de command line below.
+
+```
 npm start
 ```
 
-:::info
-The default port is 5000. If you want to set a different one for the API to listen, set a environment variable system like this:
+**NOTE**: The default port is 5000. If you want to set a different one for the API to listen, set a environment variable system like this:
 
-```shell=
+```bash
 export PORT=3000
 ```
-:::
-
 
 # Routes
 
 Routes                       | Description
 ---------------------------- | -----------
 `GET /api/:version/gpus`     | Return an array containing all existing gpus
-`GET /api/:version/gpus/:id` | Return a specific gpu with
+`GET /api/:version/gpus/:id` | Return a specific gpu with a specific id
 `PUT /api/:version/gpus`     | Add a new gpu
+
+#### Details for a Gpu can be found [here](./v1/models/gpu/GPU.md)
