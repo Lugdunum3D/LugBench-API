@@ -1,6 +1,6 @@
 # GPU model
 
-```JSON
+```
 {
     "properties": {
         "apiVersion": {
