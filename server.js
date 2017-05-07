@@ -10,6 +10,7 @@ var server = express();
 
 var api = require('./index');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb_uri, (err) => {
 
     if (err) {

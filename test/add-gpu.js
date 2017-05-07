@@ -10,28 +10,20 @@ mongoose.connect(config.mongodb_uri);
 
 describe('Gpu', () => {
     beforeEach((done) => {
-        Gpu.remove({}, done);
+        Gpu.removeAll(done);
     });
 
     afterEach((done) => {
-        Gpu.remove({}, done);
+        Gpu.removeAll(done);
     });
 
     it('should add to database', (done) => {
-        let gpu = new Gpu(gpuTest);
-
-        gpu.save().then((doc) => {
-            done();
-        }, done);
+        Gpu.add(gpuTest, done);
     });
 
     it('should not add to database', (done) => {
         gpuTest.formats = 'error';
-        let gpu = new Gpu(gpuTest);
-
-        gpu.save().then(done, () => {
-            done();
-        });
+        Gpu.add(gpuTest, (err, doc) => done(doc));
     })
 
 });
