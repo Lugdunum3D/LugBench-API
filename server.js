@@ -12,6 +12,10 @@ var api = require('./index');
 
 mongoose.connect(config.mongodb_uri, (err) => {
 
+    if (err) {
+        throw 'Not connected to any database';
+    }
+
     // CORS
     server.use((_, res, next) => {
         // Website you wish to allow to connect
