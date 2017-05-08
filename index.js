@@ -7,9 +7,9 @@ module.exports = function(req, res, next) {
         version(req, res, next);
     } catch (e) {
         if (e.code == "MODULE_NOT_FOUND") {
-            res.send(405);
+            res.status(404).send();
         } else {
-            res.send(e.code);
+            res.status(e.code).send();
         }
     }
 };

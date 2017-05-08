@@ -9,21 +9,20 @@ var router = express.Router();
 router.put('/gpus', (req, res) => {
     if (!req.body || !req.body.length) {
         res.status(400).send('Missing object');
-    } else {
-        let newGpu = new Gpu(req.body);
-        let promise = newGpu.save();
-
-        promise.then((doc) => {
-            res.status(200).send({
-                data: doc
-            });
-        }, (err) => {
-            res.status(500).send({
-                err: err
-            });
-        });
+        return;
     }
+    let newGpu = new Gpu(req.body);
+    let promise = newGpu.save();
 
+    promise.then((doc) => {
+        res.status(200).send({
+            data: doc
+        });
+    }, (err) => {
+        res.status(500).send({
+            err: err
+        });
+    });
 });
 
 router.get('/gpus', (req, res) => {

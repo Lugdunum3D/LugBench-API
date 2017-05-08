@@ -13,7 +13,7 @@ var api = require('./index');
 mongoose.connect(config.mongodb_uri, (err) => {
 
     if (err) {
-        throw 'Not connected to any database';
+        throw err;
     }
 
     // CORS
