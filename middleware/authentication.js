@@ -11,8 +11,8 @@ module.exports = (req, res, next) => {
             res.status(401).send('Authentication token is required');
         } else if (accessToken !== config.auth_token) {
             res.status(401).send('Authentication token is not correct');
-        } else {
-            next();
         }
+    } else {
+        next();
     }
 };
