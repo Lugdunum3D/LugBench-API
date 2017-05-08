@@ -23,6 +23,7 @@ git clone https://github.com/Lugdunum3D/LugBench-API.git
 # Installation
 
 This command line below will install all dependencies you need to run the project.
+
 ```bash
 npm install
 ```
@@ -49,4 +50,4 @@ Routes                       | Description
 `GET /api/:version/gpus/:id` | Return a specific gpu with a specific id
 `PUT /api/:version/gpus`     | Add a new gpu
 
-#### Details for a Gpu can be found [here](./v1/models/gpu/GPU.md)
+Details for a Gpu can be found [here](./v1/models/gpu/GPU.md)
