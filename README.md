@@ -16,11 +16,6 @@ npm     | >= 4.5x
 
 # Clone the repository
 
-Download the project [here](https://github.com/Lugdunum3D/LugBench-API/archive/dev.zip)
-
-**OR**
-
-Clone the repository
 ```
 git clone https://github.com/Lugdunum3D/LugBench-API.git
 ```
@@ -40,7 +35,7 @@ To start the API, type de command line below.
 npm start
 ```
 
-**NOTE**: The default port is 5000. If you want to set a different one for the API to listen, set a environment variable system like this:
+**Note**: The default port is 5000. If you want to set a different one for the API to listen, set a environment variable system like this:
 
 ```bash
 export PORT=3000
