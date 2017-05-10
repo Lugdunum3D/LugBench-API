@@ -1,9 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose');
-require('../../customTypes/uint12.js')(mongoose);
-require('../../customTypes/uint10.js')(mongoose);
-require('../../customTypes/formats.js')(mongoose);
+require('../customTypes/uint12.js')(mongoose);
+require('../customTypes/uint10.js')(mongoose);
+require('../customTypes/formats.js')(mongoose);
 
 var schema = new mongoose.Schema({
     "properties": {
@@ -224,23 +224,4 @@ var schema = new mongoose.Schema({
     "formats": [mongoose.Schema.Types.Formats]
 });
 
-var Gpu = mongoose.model('Gpu', schema);
-
-module.exports = {
-    add: (gpu, cb) => {
-        let newGpu = new Gpu(gpu);
-
-        newGpu.save().then(doc => cb(null, doc), err => cb(err));
-    },
-    getAll: (cb) => {
-        Gpu.find().then(docs => cb(null, docs), err => cb(err));
-    },
-    get: (id, cb) => {
-        Gpu.findOne({
-            '_id': mongoose.Types.ObjectId(id)
-        }).then(doc => cb(null, doc), err => cb(err));
-    },
-    removeAll: (cb) => {
-        Gpu.remove({}, cb, err => cb(err));
-    }
-};
+module.exports = mongoose.model('Gpu', schema);
