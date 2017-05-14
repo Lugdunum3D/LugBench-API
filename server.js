@@ -9,13 +9,12 @@ var config = require('./config');
 var server = express();
 
 var api = require('./index');
-var middlewareAuthentication = require('./middleware/authentication');
-var middlewareCORS = require('./middleware/cors');
+var middlewareCORS = require('./middlewares/cors');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb_uri, (err) => {
 
-    if(typeof config.auth_token === 'undefined') {
+    if (!config.auth_token) {
         throw 'Missing environment token';
     }
 
@@ -25,7 +24,6 @@ mongoose.connect(config.mongodb_uri, (err) => {
     server.use(bodyparser.json({
         limit: '50mb'
     }));
-    server.use('/api/', middlewareAuthentication);
     server.use('/api/:version', api);
 
     server.get('/', (req, res) => res.sendFile('./index.html'));

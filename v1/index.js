@@ -2,48 +2,72 @@
 
 var express = require('express');
 var mongoose = require('mongoose');
+var middlewareAuth = require('../middlewares/authentication');
 
 var Gpu = require('./models/gpu');
 var router = express.Router();
 
 router.put('/gpus', (req, res) => {
-    let gpu = new Gpu(req.body);
-    gpu.save((err, doc) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send({
-                data: doc
-            });
-        }
+    let newGpu = new Gpu(req.body);
+
+    if (!req.body || !req.body.length) return res.status(400).send('Missing object');
+
+    newGpu.save().then((doc) => {
+        res.status(200).send({
+            data: doc
+        });
+    }, err => {
+        res.status(500).send({
+            err: err
+        });
     });
 });
 
+router.put('/gpus/:id', middlewareAuth, (req, res) => {
+    if (!req.params.id) return res.status(400).send('Missing id parameter.');
+    if (!req.body || !req.body.length) return res.status(400).send('Missing object');
+
+    Gpu.update({
+        _id: mongoose.Types.ObjectId(req.params.id)
+    }, {
+        $set: req.body
+    }).then(doc => {
+        res.status(200).send({
+            data: doc
+        });
+    }, err => {
+        res.status(500).send({
+            err: err
+        });
+    });
+
+});
+
 router.get('/gpus', (req, res) => {
-    Gpu.find({}, (err, docs) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send({
-                data: docs
-            });
-        }
+    Gpu.find().then((doc) => {
+        res.status(200).send({
+            data: doc
+        });
+    }, err => {
+        res.status(500).send({
+            err: err
+        });
     });
 });
 
 router.get('/gpus/:id', (req, res) => {
-    let id = req.params.id;
+    if (!req.params.id) return res.status(400).send('Missing id parameter.');
 
     Gpu.findOne({
-        '_id': mongoose.Types.ObjectId(id)
-    }, (err, doc) => {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.status(200).send({
-                data: doc
-            });
-        }
+        _id: mongoose.Types.ObjectId(req.params.id)
+    }).then((doc) => {
+        res.status(200).send({
+            data: doc
+        });
+    }, err => {
+        res.status(500).send({
+            err: err
+        });
     });
 });
 
