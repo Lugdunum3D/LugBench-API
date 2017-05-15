@@ -1,9 +1,9 @@
 'use strict';
 
 var mongoose = require('mongoose');
-require('../../customTypes/uint12.js')(mongoose);
-require('../../customTypes/uint10.js')(mongoose);
-require('../../customTypes/formats.js')(mongoose);
+require('../customTypes/uint12.js')(mongoose);
+require('../customTypes/uint10.js')(mongoose);
+require('../customTypes/formats.js')(mongoose);
 
 var schema = new mongoose.Schema({
     "properties": {

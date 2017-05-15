@@ -10,6 +10,7 @@ var server = express();
 
 var api = require('./index');
 
+mongoose.Promise = global.Promise;
 mongoose.connect(config.mongodb_uri, (err) => {
 
     if (err) {
@@ -44,3 +45,5 @@ mongoose.connect(config.mongodb_uri, (err) => {
         console.log(err || ('API is listening on port ' + config.server.port));
     });
 });
+
+module.exports = server;
