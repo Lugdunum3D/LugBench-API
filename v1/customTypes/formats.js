@@ -3,7 +3,7 @@
 module.exports = (mongoose) => {
     function Formats(key, options) {
         mongoose.SchemaType.call(this, key, options, 'Formats');
-    };
+    }
 
     Formats.prototype = Object.create(mongoose.SchemaType.prototype);
 

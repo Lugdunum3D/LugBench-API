@@ -1,0 +1,15 @@
+{
+    "esversion": 6,
+    "camelcase": true,
+    "node": true,
+    "unused": true,
+    "undef": true,
+    "strict": true,
+    "globals": {
+        // Globals for tests
+        "describe": true,
+        "it": true,
+        "before": true,
+        "after": true
+    }
+}

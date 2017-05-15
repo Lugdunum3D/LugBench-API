@@ -1,7 +1,5 @@
 "use strict";
 
-var express = require('express');
-
 module.exports = function(req, res, next) {
     try {
         let version = require(`./${req.params.version}`);

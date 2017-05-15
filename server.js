@@ -12,10 +12,14 @@ var api = require('./index');
 var middlewareCORS = require('./middlewares/cors');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.mongodb_uri, (err) => {
+mongoose.connect(config.mongodbUri, (err) => {
 
-    if (!config.auth_token) {
+    if (!config.authToken) {
         throw 'Missing environment token';
+    }
+
+    if (err) {
+        throw err;
     }
 
     server.use(middlewareCORS);
