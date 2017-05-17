@@ -4,6 +4,7 @@ var express = require('express');
 var bodyparser = require('body-parser');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
+var RateLimit = require('express-rate-limit');
 
 var config = require('./config');
 var server = express();
@@ -31,6 +32,15 @@ mongoose.connect(config.mongodb_uri, (err) => {
         // Pass to next layer of middleware
         next();
     });
+
+    // Rate limiter
+    server.enable('trust proxy');
+    var limiter = new RateLimit({
+      windowMs: 10*60*1000, // 10 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+      delayMs: 0 // disable delaying - full speed until the max limit is reached
+    });
+    server.use(limiter);
 
     server.use(morgan(':method :url | :status | :response-time ms'));
     server.use(express.static(__dirname));
