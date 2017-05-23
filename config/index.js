@@ -2,5 +2,6 @@ module.exports = {
     server: {
         port: process.env.PORT || 5000
     },
-    mongodb_uri: process.env.MONGODB_URI
+    mongodbUri: process.env.MONGODB_URI || 'mongodb://localhost:27017/lugbench_localdb',
+    authToken: process.env.AUTH_TOKEN
 };

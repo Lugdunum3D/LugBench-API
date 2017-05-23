@@ -3452,4 +3452,4 @@ module.exports = {
             }
         }
     ]
-}
+};

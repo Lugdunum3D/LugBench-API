@@ -3,7 +3,7 @@
 module.exports = (mongoose) => {
     function Uint12(key, options) {
         mongoose.SchemaType.call(this, key, options, 'Uint12');
-    };
+    }
 
     Uint12.prototype = Object.create(mongoose.SchemaType.prototype);
 
