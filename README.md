@@ -50,4 +50,4 @@ Routes                       | Description
 `GET /api/:version/gpus/:id` | Return a specific gpu with a specific id
 `PUT /api/:version/gpus`     | Add a new gpu
 
-Details for a Gpu can be found [here](./v1/models/gpu/GPU.md)
+Details for a Gpu can be found [here](./v1/models/gpu.js)
