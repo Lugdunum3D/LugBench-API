@@ -18,6 +18,7 @@ var schema = new mongoose.Schema({
             "patch": mongoose.Schema.Types.Uint12
         },
         "vendorID": Number,
+        "vendorName": String,
         "deviceID": Number,
         "deviceName": String,
         "deviceType": String,
