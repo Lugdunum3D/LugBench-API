@@ -5,15 +5,15 @@
  */
 const config        = require('./config')
 const restify       = require('restify')
-const bunyan        = require('bunyan')
 const winston       = require('winston')
 const bunyanWinston = require('bunyan-winston-adapter')
 const mongoose      = require('mongoose')
+const autoload      = require('auto-load')
 
 /**
  * Logging
  */
-global.log = new winston.Logger({
+const log = new winston.Logger({
     transports: [
         new winston.transports.Console({
             level: 'info',
@@ -28,7 +28,7 @@ global.log = new winston.Logger({
 /**
  * Initialize Server
  */
-global.server = restify.createServer({
+const server = restify.createServer({
     name    : config.name,
     version : config.version,
     log     : bunyanWinston.createAdapter(log),
@@ -49,6 +49,25 @@ server.on('uncaughtException', (req, res, route, err) => {
     log.error(err.stack)
     res.send(err)
 })
+
+const configRoutes = function(server, handlers) {
+    // Devices
+    server.get('/devices', handlers.devices.index.get)
+    server.post('/devices', handlers.devices.index.post)
+
+    server.get('/devices/:id', handlers.devices.id.index.get)
+
+    // Scenarios
+    server.get('/scores', handlers.scores.index.get)
+    server.post('/scores', handlers.scores.index.post)
+
+    server.get('/scores/:id', handlers.scores.id.index.get)
+
+    // Scores
+    server.get('/scenarios', handlers.scenarios.index.get)
+
+    server.get('/scenarios/:id', handlers.scenarios.id.index.get)
+}
 
 /**
  * Lift Server, Connect to DB & Bind Routes
@@ -75,12 +94,12 @@ server.listen(config.port, function() {
             config.env
         )
 
-        require('./routes/device')
-        require('./routes/scenario')
-        require('./routes/score')
-
+        const handlers = autoload(__dirname + '/routes')
+        configRoutes(server, handlers)
     })
 
-    global.db = mongoose.connect(config.db.uri)
-
+    mongoose.connect(config.db.uri)
 })
+
+module.exports.log = log
+module.exports.server = server

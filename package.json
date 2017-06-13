@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lugdunum team",
-  "license": "ISC",
+  "author": "Lugdunum3D",
+  "license": "MIT",
   "dependencies": {
+    "auto-load": "^2.1.2",
     "bunyan-winston-adapter": "^0.2.0",
     "lodash": "^4.17.4",
     "mongoose": "^4.10.5",
