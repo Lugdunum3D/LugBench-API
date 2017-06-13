@@ -1,25 +1,20 @@
 {
-  "name": "lugdbench-api",
+  "name": "lugbench-api",
   "version": "1.0.0",
-  "description": "",
-  "engines": {
-    "node": ">=6.10x",
-    "npm": ">=4.5x"
-  },
-  "main": "server.js",
+  "description": "The API of our solution Lugdunum",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "mocha test/add-gpu.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Lugdunum3D",
-  "license": "MIT",
+  "author": "Lugdunum team",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.17.1",
-    "chai": "^3.5.0",
-    "chai-http": "^3.0.0",
-    "express": "^4.15.2",
-    "mocha": "^3.3.0",
-    "mongoose": "^4.9.7"
-  },
-  "devDependencies": {}
+    "bunyan-winston-adapter": "^0.2.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.10.5",
+    "mongoose-api-query": "^0.1.1-pre",
+    "restify": "^4.3.0",
+    "restify-errors": "^4.3.0",
+    "winston": "^2.3.1"
+  }
 }
