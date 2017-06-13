@@ -1,13 +1,13 @@
 'use strict'
 
-const mongoose = require('mongoose'),
-      mongooseApiQuery = require('mongoose-api-query')
+const mongoose = require('mongoose')
+const mongooseApiQuery = require('mongoose-api-query')
 
 const ScoreSchema = new mongoose.Schema({
-  "device": String,
-  "scenario": String,
-  "nbFrames": Number,
-  "averageFps": Number
+    'device': String,
+    'scenario': String,
+    'nbFrames': Number,
+    'averageFps': Number,
 })
 
 ScoreSchema.plugin(mongooseApiQuery)

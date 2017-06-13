@@ -23,7 +23,6 @@ server.post('/devices', function(req, res, next) {
         if (err) {
             log.error(err)
             return next(new errors.InternalError(err.message))
-            next()
         }
 
         res.send(201)

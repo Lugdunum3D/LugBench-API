@@ -3,12 +3,12 @@
 /**
  * Module Dependencies
  */
-const config        = require('./config'),
-      restify       = require('restify'),
-      bunyan        = require('bunyan'),
-      winston       = require('winston'),
-      bunyanWinston = require('bunyan-winston-adapter'),
-      mongoose      = require('mongoose')
+const config        = require('./config')
+const restify       = require('restify')
+const bunyan        = require('bunyan')
+const winston       = require('winston')
+const bunyanWinston = require('bunyan-winston-adapter')
+const mongoose      = require('mongoose')
 
 /**
  * Logging
@@ -20,9 +20,9 @@ global.log = new winston.Logger({
             timestamp: () => {
                 return new Date().toString()
             },
-            json: true
+            json: true,
         }),
-    ]
+    ],
 })
 
 /**
@@ -48,7 +48,7 @@ server.use(restify.fullResponse())
 server.on('uncaughtException', (req, res, route, err) => {
     log.error(err.stack)
     res.send(err)
-});
+})
 
 /**
  * Lift Server, Connect to DB & Bind Routes
