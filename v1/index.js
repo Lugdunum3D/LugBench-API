@@ -5,12 +5,18 @@ var mongoose = require('mongoose');
 var middlewareAuth = require('../middlewares/authentication');
 
 var Gpu = require('./models/gpu');
+var vendors = require('./models/vendors');
 var router = express.Router();
 
 router.put('/gpus', (req, res) => {
-    let newGpu = new Gpu(req.body);
+    if (!req.body) return res.status(400).send('Missing object.');
 
-    if (!req.body) return res.status(400).send('Missing object');
+    if (req.body.properties.vendorID) {
+      var vendorID = req.body.properties.vendorID.toString(16).toUpperCase();
+      req.body.properties.vendorName = vendors[vendorID];
+    }
+
+    let newGpu = new Gpu(req.body);
 
     newGpu.save().then((doc) => {
         res.status(200).send({
@@ -26,6 +32,11 @@ router.put('/gpus', (req, res) => {
 router.put('/gpus/:id', middlewareAuth, (req, res) => {
     if (!req.params.id) return res.status(400).send('Missing id parameter.');
     if (!req.body) return res.status(400).send('Missing object');
+
+    if (req.body.properties.vendorID) {
+      var vendorID = req.body.properties.vendorID.toString(16).toUpperCase();
+      req.body.properties.vendorName = vendors[vendorID];
+    }
 
     Gpu.update({
         _id: mongoose.Types.ObjectId(req.params.id)
