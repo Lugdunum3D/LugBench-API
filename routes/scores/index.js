@@ -14,7 +14,7 @@ module.exports.get = function get(req, res, next) {
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
-        res.send(scores)
+        res.send(res.paginate.getPaginatedResponse(scores))
         next()
     })
 }

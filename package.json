@@ -16,6 +16,7 @@
     "mongoose-api-query": "^0.1.1-pre",
     "restify": "^4.3.0",
     "restify-errors": "^4.3.0",
+    "restify-paginate": "0.0.4",
     "winston": "^2.3.1"
   }
 }

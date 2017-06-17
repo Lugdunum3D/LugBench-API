@@ -1,6 +1,7 @@
 'use strict'
 
 const errors = require('restify-errors')
+const paginate = require('restify-paginate')
 
 const log = require('../../index').log
 const Device = require('../../models/device')
@@ -14,7 +15,7 @@ module.exports.get = function get(req, res, next) {
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
-        res.send(devices)
+        res.send(res.paginate.getPaginatedResponse(devices))
         next()
     })
 }

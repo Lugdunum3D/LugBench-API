@@ -5,10 +5,12 @@
  */
 const config        = require('./config')
 const restify       = require('restify')
+const paginate      = require('restify-paginate')
 const winston       = require('winston')
 const bunyanWinston = require('bunyan-winston-adapter')
 const mongoose      = require('mongoose')
 const autoload      = require('auto-load')
+
 
 /**
  * Logging
@@ -41,6 +43,7 @@ server.use(restify.jsonBodyParser({ mapParams: true }))
 server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
+server.use(paginate(server))
 
 /**
  * Error Handling
