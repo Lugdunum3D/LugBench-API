@@ -8,6 +8,8 @@ const ScoreSchema = new mongoose.Schema({
     'scenario': String,
     'nbFrames': Number,
     'averageFps': Number,
+}, {
+  versionKey: false
 })
 
 ScoreSchema.plugin(mongooseApiQuery)

@@ -231,6 +231,8 @@ const DeviceSchema = new mongoose.Schema({
         }],
         'formats': [mongoose.Schema.Types.Formats],
     },
+}, {
+  versionKey: false
 })
 
 DeviceSchema.index({

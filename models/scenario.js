@@ -6,6 +6,8 @@ const mongooseApiQuery = require('mongoose-api-query')
 const ScenarioSchema = new mongoose.Schema({
     'name': { type: String, unique: true },
     'description': String,
+}, {
+  versionKey: false
 })
 
 ScenarioSchema.plugin(mongooseApiQuery)
