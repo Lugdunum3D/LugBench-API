@@ -23,14 +23,14 @@ module.exports.post = function post(req, res, next) {
     let data = req.body || {}
 
     let score = new Score(data)
-    score.save(function(err) {
+    score.save(function(err, score) {
 
         if (err) {
             log.error(err)
             return next(new errors.InternalError(err.message))
         }
 
-        res.send(201)
+        res.send({ id: score.id }, 201)
         next()
     })
 }

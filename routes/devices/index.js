@@ -23,14 +23,14 @@ module.exports.post = function post(req, res, next) {
     let data = req.body || {}
     let device = new Device(data)
 
-    device.save(function(err) {
+    device.save(function(err, device) {
 
         if (err) {
             log.error(err)
             return next(new errors.InternalError(err.message))
         }
 
-        res.send(201)
+        res.send({ id: device.id }, 201)
         next()
     })
 }
