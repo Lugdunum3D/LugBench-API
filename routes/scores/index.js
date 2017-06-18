@@ -7,7 +7,7 @@ const Score = require('../../models/score')
 
 
 module.exports.get = function get(req, res, next) {
-    Score.apiQuery(req.params, function(err, scores) {
+    Score.find(req.params, function(err, scores) {
 
         if (err) {
             log.error(err)

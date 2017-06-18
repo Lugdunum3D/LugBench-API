@@ -8,7 +8,7 @@ const Device = require('../../models/device')
 
 
 module.exports.get = function get(req, res, next) {
-    Device.apiQuery(req.params, function(err, devices) {
+    Device.find(req.params, function(err, devices) {
 
         if (err) {
             log.error(err)

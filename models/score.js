@@ -1,7 +1,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const mongooseApiQuery = require('mongoose-api-query')
 
 const ScoreSchema = new mongoose.Schema({
     'device': String,
@@ -11,8 +10,6 @@ const ScoreSchema = new mongoose.Schema({
 }, {
   versionKey: false
 })
-
-ScoreSchema.plugin(mongooseApiQuery)
 
 const Score = mongoose.model('Score', ScoreSchema)
 module.exports = Score

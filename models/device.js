@@ -1,7 +1,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const mongooseApiQuery = require('mongoose-api-query')
 
 require('../customTypes/uint12.js')(mongoose)
 require('../customTypes/uint10.js')(mongoose)
@@ -242,8 +241,6 @@ DeviceSchema.index({
     'vendorId': 1,
     'driverVersion': 1,
 }, { unique: true })
-
-DeviceSchema.plugin(mongooseApiQuery)
 
 const Device = mongoose.model('Device', DeviceSchema)
 module.exports = Device

@@ -13,7 +13,6 @@
     "bunyan-winston-adapter": "^0.2.0",
     "lodash": "^4.17.4",
     "mongoose": "^4.10.5",
-    "mongoose-api-query": "^0.1.1-pre",
     "restify": "^4.3.0",
     "restify-errors": "^4.3.0",
     "restify-paginate": "0.0.4",

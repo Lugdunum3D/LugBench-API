@@ -7,7 +7,7 @@ const Device = require('../../../models/device')
 
 
 module.exports.get = function get(req, res, next) {
-    Device.findOne({ _id: req.params.device_id }, function(err, device) {
+    Device.find({ _id: req.params.device_id }, function(err, device) {
 
         if (err) {
             log.error(err)

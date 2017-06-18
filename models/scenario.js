@@ -1,7 +1,6 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const mongooseApiQuery = require('mongoose-api-query')
 
 const ScenarioSchema = new mongoose.Schema({
     'name': { type: String, unique: true },
@@ -9,8 +8,6 @@ const ScenarioSchema = new mongoose.Schema({
 }, {
   versionKey: false
 })
-
-ScenarioSchema.plugin(mongooseApiQuery)
 
 const Scenario = mongoose.model('Scenario', ScenarioSchema)
 module.exports = Scenario
