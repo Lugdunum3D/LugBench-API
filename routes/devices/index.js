@@ -15,7 +15,11 @@ module.exports.get = function get(req, res, next) {
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
-        res.send(res.paginate.getPaginatedResponse(devices))
+        if (devices.length > 0) {
+          res.send(res.paginate.getPaginatedResponse(devices))
+        } else {
+          res.send({})
+        }
         next()
     })
 }
