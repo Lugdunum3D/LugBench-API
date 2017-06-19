@@ -1,9 +1,9 @@
 'use strict'
 
-const errors = require('restify-errors')
+const errors  = require('restify-errors')
 
-const log = require('../../../index').log
-const Score = require('../../../models/score')
+const log     = require('../../../index').log
+const Score   = require('../../../models/score')
 
 
 module.exports.get = function get(req, res, next) {

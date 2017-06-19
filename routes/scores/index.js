@@ -3,8 +3,8 @@
 const errors  = require('restify-errors')
 const _       = require('lodash')
 
-const log = require('../../index').log
-const Score = require('../../models/score')
+const log     = require('../../index').log
+const Score   = require('../../models/score')
 
 
 module.exports.get = function get(req, res, next) {
