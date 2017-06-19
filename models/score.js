@@ -3,8 +3,8 @@
 const mongoose = require('mongoose')
 
 const ScoreSchema = new mongoose.Schema({
-    'device': String,
-    'scenario': String,
+    'device': { type: String, ref: 'Device' },
+    'scenario': { type: String, ref: 'Scenario' },
     'nbFrames': Number,
     'averageFps': Number,
 }, {

@@ -1,13 +1,20 @@
 'use strict'
 
-const errors = require('restify-errors')
+const errors  = require('restify-errors')
+const _       = require('lodash')
 
 const log = require('../../index').log
 const Score = require('../../models/score')
 
 
 module.exports.get = function get(req, res, next) {
-    Score.find(req.params, function(err, scores) {
+    const findParams = _.pick(req.params, ['device', 'scenario'])
+    const populateParams = _.pick(req.params, ['populate'])
+
+    Score
+    .find(findParams)
+    .populate(populateParams ? populateParams.populate : '')
+    .exec(function(err, scores) {
 
         if (err) {
             log.error(err)
