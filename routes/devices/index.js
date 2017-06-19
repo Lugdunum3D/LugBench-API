@@ -1,14 +1,16 @@
 'use strict'
 
-const errors = require('restify-errors')
-const paginate = require('restify-paginate')
+const errors  = require('restify-errors')
+const _       = require('lodash')
 
-const log = require('../../index').log
-const Device = require('../../models/device')
+const log     = require('../../index').log
+const Device  = require('../../models/device')
 
 
 module.exports.get = function get(req, res, next) {
-    Device.find(req.params, function(err, devices) {
+    const findParams = _.pick(req.params, ['name', 'os', 'driverVersion', 'vendorId', 'deviceId'])
+
+    Device.find(findParams, function(err, devices) {
 
         if (err) {
             log.error(err)
