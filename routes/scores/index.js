@@ -6,15 +6,35 @@ const _       = require('lodash')
 const log     = require('../../index').log
 const Score   = require('../../models/score')
 
+function reqFromParams(params) {
+  const findParams = _.pick(params, ['device', 'scenario'])
+  const populateParams = _.pick(params, ['populate'])
+  const aggregateParams = _.pick(params, ['group'])
+  let scoreRequest
+
+  if (aggregateParams.group) {
+    scoreRequest = Score.aggregate([
+      {
+        $group: {
+          _id: '$' + aggregateParams.group,
+          averageFps: {
+            $avg: '$averageFps'
+          }
+        }
+      }
+    ])
+  } else {
+    scoreRequest = Score.find(findParams)
+    if (populateParams.populate) {
+      scoreRequest = scoreRequest.populate(populateParams.populate)
+    }
+  }
+
+  return scoreRequest
+}
 
 module.exports.get = function get(req, res, next) {
-    const findParams = _.pick(req.params, ['device', 'scenario'])
-    const populateParams = _.pick(req.params, ['populate'])
-
-    Score
-    .find(findParams)
-    .populate(populateParams ? populateParams.populate : '')
-    .exec(function(err, scores) {
+    reqFromParams(req.params).exec(function(err, scores) {
 
         if (err) {
             log.error(err)
