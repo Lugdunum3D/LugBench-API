@@ -1,7 +1,8 @@
 'use strict'
 
-const errors  = require('restify-errors')
-const _       = require('lodash')
+const errors    = require('restify-errors')
+const _         = require('lodash')
+const UserAgent = require('../../common/userAgent')
 
 const log     = require('../../index').log
 const Device  = require('../../models/device')
@@ -36,8 +37,9 @@ module.exports.post = function post(req, res, next) {
             log.error(err)
             return next(new errors.InternalError(err.message))
         }
-
+        
         res.send({ id: device.id }, 201)
+
         next()
     })
 }

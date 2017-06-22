@@ -4,8 +4,11 @@ const config = require('../config')
 
 module.exports.checkClientVersion = function(req, res, next) {
     if (!req.headers['user-agent']) {
-        res.send(401)
+        return res.send(401)
     }
     var ua = UserAgent.parse(req.headers['user-agent'])
-    if (ua.family)
+    if (ua.family !== "LugBench"  || ua.version() !== config.client_version){
+        return res.send(401)
+    }
+    next()
 }

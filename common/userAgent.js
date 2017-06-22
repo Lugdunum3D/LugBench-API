@@ -9,6 +9,10 @@
   this.source = source || 'other';
 }
 
+Agent.prototype.version = function version() {
+    return this.major + '.' + this.minor + '.' + this.patch
+}
+
  function parse(userAgent){
     var userAgentSplited = userAgent.split("/")
     if (userAgentSplited.length !== 3 || userAgentSplited[0] !== "LugBench" ){

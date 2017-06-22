@@ -3,13 +3,15 @@
 /**
  * Module Dependencies
  */
-const config        = require('./config')
-const restify       = require('restify')
-const paginate      = require('restify-paginate')
-const winston       = require('winston')
-const bunyanWinston = require('bunyan-winston-adapter')
-const mongoose      = require('mongoose')
-const autoload      = require('auto-load')
+const config                = require('./config')
+const restify               = require('restify')
+const paginate              = require('restify-paginate')
+const winston               = require('winston')
+const bunyanWinston         = require('bunyan-winston-adapter')
+const mongoose              = require('mongoose')
+const autoload              = require('auto-load')
+
+const checkClientVersion    = require('./middlewares/checkClientVersion').checkClientVersion
 
 
 /**
@@ -56,7 +58,7 @@ server.on('uncaughtException', (req, res, route, err) => {
 const configRoutes = function(server, handlers) {
     // Devices
     server.get('/devices', handlers.devices.index.get)
-    server.post('/devices', handlers.devices.index.post)
+    server.post('/devices', checkClientVersion, handlers.devices.index.post)
 
     server.get('/devices/:id', handlers.devices.id.index.get)
 
