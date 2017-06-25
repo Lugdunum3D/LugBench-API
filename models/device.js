@@ -19,11 +19,7 @@ const DeviceSchema = new mongoose.Schema({
                 'minor': mongoose.Schema.Types.Uint10,
                 'patch': mongoose.Schema.Types.Uint12,
             },
-            'driverVersion': {
-                'major': mongoose.Schema.Types.Uint10,
-                'minor': mongoose.Schema.Types.Uint10,
-                'patch': mongoose.Schema.Types.Uint12,
-            },
+            'driverVersion': Number,
             'vendorID': Number,
             'deviceID': Number,
             'deviceName': String,
@@ -203,12 +199,10 @@ const DeviceSchema = new mongoose.Schema({
             'inheritedQueries': Boolean,
         },
         'memory': {
-            'memoryTypeCount': Number,
             'memoryTypes': [{
                 'heapIndex': Number,
                 'propertyFlags': [String],
             }],
-            'memoryHeapCount': Number,
             'memoryHeaps': [{
                 'heapIndex': Number,
                 'propertyFlags': [String],

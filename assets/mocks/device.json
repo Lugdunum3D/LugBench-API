@@ -3122,7 +3122,6 @@
 	        ]
 	    ],
 	    "memory": {
-	        "memoryHeapCount": 2,
 	        "memoryHeaps": [
 	            {
 	                "flags": [
@@ -3135,7 +3134,6 @@
 	                "size": 12537090048
 	            }
 	        ],
-	        "memoryTypeCount": 11,
 	        "memoryTypes": [
 	            {
 	                "heapIndex": 1,
@@ -3203,11 +3201,7 @@
 	        "deviceID": 5159,
 	        "deviceName": "GeForce GTX 965M",
 	        "deviceType": "VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU",
-	        "driverVersion": {
-	            "major": 378,
-	            "minor": 52,
-	            "patch": 0
-	        },
+	        "driverVersion": 378520,
 	        "limits": {
 	            "bufferImageGranularity": 1024,
 	            "discreteQueuePriorities": 2,
