@@ -6,6 +6,19 @@ const _       = require('lodash')
 const log     = require('../../index').log
 const Score   = require('../../models/score')
 
+function getIdFromGroupParams(groupParams) {
+  let groupId = {}
+
+  if (_.isString(groupParams)) {
+    groupId[groupParams] = '$' + groupParams
+  } else if (_.isArray(groupParams)) {
+    _.map(groupParams, function(group) {
+      groupId[group] = '$' + group
+    })
+  }
+  return groupId
+}
+
 function reqFromParams(params) {
   const findParams = _.pick(params, ['device', 'scenario'])
   const populateParams = _.pick(params, ['populate'])
@@ -16,7 +29,7 @@ function reqFromParams(params) {
     scoreRequest = Score.aggregate([
       {
         $group: {
-          _id: '$' + aggregateParams.group,
+          _id: getIdFromGroupParams(aggregateParams.group),
           averageFps: {
             $avg: '$averageFps'
           }
