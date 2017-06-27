@@ -62,13 +62,13 @@ const configRoutes = function(server, handlers) {
 
     server.get('/devices/:id', handlers.devices.id.index.get)
 
-    // Scenarios
+    // Scores
     server.get('/scores', handlers.scores.index.get)
     server.post('/scores', handlers.scores.index.post)
 
     server.get('/scores/:id', handlers.scores.id.index.get)
 
-    // Scores
+    // Scenarios
     server.get('/scenarios', handlers.scenarios.index.get)
 
     server.get('/scenarios/:id', handlers.scenarios.id.index.get)
