@@ -7,7 +7,7 @@ const Score   = require('../../../models/score')
 
 
 module.exports.get = function get(req, res, next) {
-    Score.find({ _id: req.params.score_id }, function(err, score) {
+    Score.find({ _id: req.params.id }, function(err, score) {
 
         if (err) {
             log.error(err)
