@@ -1,6 +1,7 @@
 "use strict"
 
-const config = require('../config')
+const config    = require('../config')
+const UserAgent = require('../common/userAgent')
 
 module.exports.checkClientVersion = function(req, res, next) {
     if (!req.headers['user-agent']) {
