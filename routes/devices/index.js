@@ -37,7 +37,7 @@ module.exports.post = function post(req, res, next) {
             return next(new errors.InternalError(err.message))
         }
 
-        res.send({ id: device.id }, 201)
+        res.send(201, { id: device.id })
 
         next()
     })

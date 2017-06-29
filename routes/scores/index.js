@@ -74,7 +74,7 @@ module.exports.post = function post(req, res, next) {
             return next(new errors.InternalError(err.message))
         }
 
-        res.send({ id: score.id }, 201)
+        res.send(201, { id: score.id })
         next()
     })
 }
