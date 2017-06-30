@@ -1,8 +1,8 @@
 {
 	"name": "Intel(R) HD Graphics 530 (Skylake GT2)",
 	"os": "Linux",
-	"deviceID": 6427,
-	"vendorID": 32902,
+	"deviceId": 6427,
+	"vendorId": 32902,
 	"driverVersion": 1,
 	"vulkanInfo": {
 		"extension": [{

@@ -3,7 +3,7 @@ const chai      = require('chai')
 const supertest = require('supertest')
 const mongoose  = require('mongoose')
 
-const expect    = chai.expect;
+const expect    = chai.expect
 const app       = supertest.agent('http://localhost:5000')
 const db        = mongoose.connection
 
@@ -14,17 +14,13 @@ before(function (done) {
   db.collection('devices').drop(function () {
     done()
   })
-});
-
-beforeEach(function (done) {
-  done()
 })
 
 afterEach(function (done) {
   db.collection('devices').drop(function () {
     done()
   })
-});
+})
 
 describe('Device', function() {
 
@@ -40,6 +36,102 @@ describe('Device', function() {
             expect(res.body.data[1]._id).to.have.string(second.ops[0]._id)
             expect(res.body.data[0].name).to.be.equal(first.ops[0].name)
             expect(res.body.data[1].name).to.be.equal(second.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should search the devices by name', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?name=' + first.ops[0].name)
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
+            expect(res.body.data[0].name).to.be.equal(first.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should search the devices by os', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?os=' + second.ops[0].os)
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.data[0]._id).to.have.string(second.ops[0]._id)
+            expect(res.body.data[0].name).to.be.equal(second.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should search the devices by driverVersion', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?driverVersion=' + first.ops[0].driverVersion)
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
+            expect(res.body.data[0].name).to.be.equal(first.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should search the devices by vendorId', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?vendorId=' + second.ops[0].vendorId)
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.data[0]._id).to.have.string(second.ops[0]._id)
+            expect(res.body.data[0].name).to.be.equal(second.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should search the devices by deviceId', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?deviceId=' + first.ops[0].deviceId)
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
+            expect(res.body.data[0].name).to.be.equal(first.ops[0].name)
+            expect(res.statusCode).to.be.equal(200)
+            done()
+          })
+        })
+      })
+    })
+
+    it('should paginate the devices', function(done) {
+      db.collection('devices').insert(device530, function(err, first) {
+        db.collection('devices').insert(device960M, function(err, second) {
+          app
+          .get('/devices?per_page=1&page=1')
+          .end(function(err, res) {
+            expect(res.body.data.length).to.be.equal(1)
+            expect(res.body.pages.last).to.match(/^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/)
+            expect(res.body.pages.next).to.match(/^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/)
             expect(res.statusCode).to.be.equal(200)
             done()
           })
