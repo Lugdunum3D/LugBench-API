@@ -50,7 +50,7 @@ describe('Scenario', function() {
     it('should return one scenario', function(done) {
       db.collection('scenarios').insert(scenarioForce, function(err, scenario) {
         app
-        .get('/scenarios/' + scenario.ops[0]._id)
+        .get(`/scenarios/${scenario.ops[0]._id}`)
         .end(function(err, res) {
           expect(res.body.length).to.be.equal(1)
           expect(res.body[0]._id).to.have.string(scenario.ops[0]._id)

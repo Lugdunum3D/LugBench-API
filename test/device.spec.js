@@ -47,7 +47,7 @@ describe('Device', function() {
       db.collection('devices').insert(device530, function(err, first) {
         db.collection('devices').insert(device960M, function(err, second) {
           app
-          .get('/devices?name=' + first.ops[0].name)
+          .get(`/devices?name=${first.ops[0].name}`)
           .end(function(err, res) {
             expect(res.body.data.length).to.be.equal(1)
             expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
@@ -63,7 +63,7 @@ describe('Device', function() {
       db.collection('devices').insert(device530, function(err, first) {
         db.collection('devices').insert(device960M, function(err, second) {
           app
-          .get('/devices?os=' + second.ops[0].os)
+          .get(`/devices?os=${second.ops[0].os}`)
           .end(function(err, res) {
             expect(res.body.data.length).to.be.equal(1)
             expect(res.body.data[0]._id).to.have.string(second.ops[0]._id)
@@ -79,7 +79,7 @@ describe('Device', function() {
       db.collection('devices').insert(device530, function(err, first) {
         db.collection('devices').insert(device960M, function(err, second) {
           app
-          .get('/devices?driverVersion=' + first.ops[0].driverVersion)
+          .get(`/devices?driverVersion=${first.ops[0].driverVersion}`)
           .end(function(err, res) {
             expect(res.body.data.length).to.be.equal(1)
             expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
@@ -95,7 +95,7 @@ describe('Device', function() {
       db.collection('devices').insert(device530, function(err, first) {
         db.collection('devices').insert(device960M, function(err, second) {
           app
-          .get('/devices?vendorId=' + second.ops[0].vendorId)
+          .get(`/devices?vendorId=${second.ops[0].vendorId}`)
           .end(function(err, res) {
             expect(res.body.data.length).to.be.equal(1)
             expect(res.body.data[0]._id).to.have.string(second.ops[0]._id)
@@ -111,7 +111,7 @@ describe('Device', function() {
       db.collection('devices').insert(device530, function(err, first) {
         db.collection('devices').insert(device960M, function(err, second) {
           app
-          .get('/devices?deviceId=' + first.ops[0].deviceId)
+          .get(`/devices?deviceId=${first.ops[0].deviceId}`)
           .end(function(err, res) {
             expect(res.body.data.length).to.be.equal(1)
             expect(res.body.data[0]._id).to.have.string(first.ops[0]._id)
@@ -144,7 +144,7 @@ describe('Device', function() {
     it('should return one device', function(done) {
       db.collection('devices').insert(device530, function(err, device) {
         app
-        .get('/devices/' + device.ops[0]._id)
+        .get(`/devices/${device.ops[0]._id}`)
         .end(function(err, res) {
           expect(res.body.length).to.be.equal(1)
           expect(res.body[0]._id).to.have.string(device.ops[0]._id)
