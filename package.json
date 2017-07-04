@@ -4,7 +4,8 @@
   "description": "The API of our solution Lugdunum",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV='test' MONGODB_URI='mongodb://localhost:27017/lugbench-test' mocha"
+    "lint": "eslint .",
+    "test": "npm run -s lint && NODE_ENV='test' MONGODB_URI='mongodb://localhost:27017/lugbench-test' mocha"
   },
   "author": "Lugdunum3D",
   "license": "MIT",
