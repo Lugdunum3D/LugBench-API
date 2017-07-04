@@ -12,7 +12,7 @@ const mongoose              = require('mongoose')
 const autoload              = require('auto-load')
 
 const checkClientVersion    = require('./middlewares/checkClientVersion').checkClientVersion
-
+const corsMiddleware        = require('./middlewares/cors').allowCrossDomain
 
 /**
  * Logging
@@ -57,21 +57,21 @@ server.on('uncaughtException', (req, res, route, err) => {
 
 const configRoutes = function(server, handlers) {
     // Devices
-    server.get('/devices', handlers.devices.index.get)
-    server.post('/devices', checkClientVersion, handlers.devices.index.post)
+    server.get('/devices', [corsMiddleware], handlers.devices.index.get);
+    server.post('/devices', [corsMiddleware, checkClientVersion], handlers.devices.index.post);
 
-    server.get('/devices/:id', handlers.devices.id.index.get)
+    server.get('/devices/:id', [corsMiddleware], handlers.devices.id.index.get);
 
     // Scores
-    server.get('/scores', handlers.scores.index.get)
-    server.post('/scores', handlers.scores.index.post)
+    server.get('/scores', [corsMiddleware], handlers.scores.index.get);
+    server.post('/scores', [corsMiddleware], handlers.scores.index.post);
 
-    server.get('/scores/:id', handlers.scores.id.index.get)
+    server.get('/scores/:id', [corsMiddleware], handlers.scores.id.index.get);
 
     // Scenarios
-    server.get('/scenarios', handlers.scenarios.index.get)
+    server.get('/scenarios', [corsMiddleware], handlers.scenarios.index.get);
 
-    server.get('/scenarios/:id', handlers.scenarios.id.index.get)
+    server.get('/scenarios/:id', [corsMiddleware], handlers.scenarios.id.index.get);
 }
 
 /**
