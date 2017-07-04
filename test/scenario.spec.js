@@ -10,19 +10,19 @@ const db        = mongoose.connection
 const scenarioForce = require('../assets/mocks/scenarios/force.json')
 const scenarioEnterprise = require('../assets/mocks/scenarios/enterprise.json')
 
-before(function (done) {
-  db.collection('scenarios').drop(function () {
-    done()
-  })
-})
-
-afterEach(function (done) {
-  db.collection('scenarios').drop(function () {
-    done()
-  })
-})
-
 describe('Scenario', function() {
+
+  before(function (done) {
+    db.collection('scenarios').drop(function () {
+      done()
+    })
+  })
+
+  afterEach(function (done) {
+    db.collection('scenarios').drop(function () {
+      done()
+    })
+  })
 
   describe('GET /scenarios', function() {
     it('should return a list of scenarios', function(done) {

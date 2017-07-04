@@ -14,27 +14,27 @@ const scenarioEnterprise = require('../assets/mocks/scenarios/enterprise.json')
 const score40 = require('../assets/mocks/scores/40.json')
 const score80 = require('../assets/mocks/scores/80.json')
 
-before(function (done) {
-  db.collection('devices').drop(function() {
-    db.collection('scenarios').drop(function() {
-      db.collection('scores').drop(function () {
-        done()
-      })
-    })
-  })
-})
-
-afterEach(function (done) {
-  db.collection('devices').drop(function() {
-    db.collection('scenarios').drop(function() {
-      db.collection('scores').drop(function () {
-        done()
-      })
-    })
-  })
-})
-
 describe('Score', function() {
+
+  before(function (done) {
+    db.collection('devices').drop(function() {
+      db.collection('scenarios').drop(function() {
+        db.collection('scores').drop(function () {
+          done()
+        })
+      })
+    })
+  })
+
+  afterEach(function (done) {
+    db.collection('devices').drop(function() {
+      db.collection('scenarios').drop(function() {
+        db.collection('scores').drop(function () {
+          done()
+        })
+      })
+    })
+  })
 
   describe('GET /scores', function() {
     it('should return a list of scores', function(done) {

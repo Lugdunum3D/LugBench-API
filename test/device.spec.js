@@ -10,19 +10,19 @@ const db        = mongoose.connection
 const device530 = require('../assets/mocks/devices/530.json')
 const device960M = require('../assets/mocks/devices/960M.json')
 
-before(function (done) {
-  db.collection('devices').drop(function () {
-    done()
-  })
-})
-
-afterEach(function (done) {
-  db.collection('devices').drop(function () {
-    done()
-  })
-})
-
 describe('Device', function() {
+
+  before(function (done) {
+    db.collection('devices').drop(function () {
+      done()
+    })
+  })
+
+  afterEach(function (done) {
+    db.collection('devices').drop(function () {
+      done()
+    })
+  })
 
   describe('GET /devices', function() {
     it('should return a list of devices', function(done) {
