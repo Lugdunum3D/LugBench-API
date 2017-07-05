@@ -18,9 +18,9 @@ module.exports.get = function get(req, res, next) {
         }
 
         if (devices.length > 0) {
-          res.send(res.paginate.getPaginatedResponse(devices))
+            res.send(res.paginate.getPaginatedResponse(devices))
         } else {
-          res.send({})
+            res.send({})
         }
         next()
     })

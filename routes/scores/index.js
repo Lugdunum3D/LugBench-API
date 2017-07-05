@@ -7,43 +7,43 @@ const log     = require('../../index').log
 const Score   = require('../../models/score')
 
 function getIdFromGroupParams(groupParams) {
-  let groupId = {}
+    let groupId = {}
 
-  if (_.isString(groupParams)) {
-    groupId[groupParams] = '$' + groupParams
-  } else if (_.isArray(groupParams)) {
-    _.map(groupParams, function(group) {
-      groupId[group] = '$' + group
-    })
-  }
-  return groupId
+    if (_.isString(groupParams)) {
+        groupId[groupParams] = '$' + groupParams
+    } else if (_.isArray(groupParams)) {
+        _.map(groupParams, function(group) {
+            groupId[group] = '$' + group
+        })
+    }
+    return groupId
 }
 
 function reqFromParams(params) {
-  const findParams = _.pick(params, ['device', 'scenario'])
-  const populateParams = _.pick(params, ['populate'])
-  const aggregateParams = _.pick(params, ['group'])
-  let scoreRequest
+    const findParams = _.pick(params, ['device', 'scenario'])
+    const populateParams = _.pick(params, ['populate'])
+    const aggregateParams = _.pick(params, ['group'])
+    let scoreRequest
 
-  if (aggregateParams.group) {
-    scoreRequest = Score.aggregate([
-      {
-        $group: {
-          _id: getIdFromGroupParams(aggregateParams.group),
-          averageFps: {
-            $avg: '$averageFps'
-          }
+    if (aggregateParams.group) {
+        scoreRequest = Score.aggregate([
+            {
+                $group: {
+                    _id: getIdFromGroupParams(aggregateParams.group),
+                    averageFps: {
+                        $avg: '$averageFps',
+                    },
+                },
+            },
+        ])
+    } else {
+        scoreRequest = Score.find(findParams)
+        if (populateParams.populate) {
+            scoreRequest = scoreRequest.populate(populateParams.populate)
         }
-      }
-    ])
-  } else {
-    scoreRequest = Score.find(findParams)
-    if (populateParams.populate) {
-      scoreRequest = scoreRequest.populate(populateParams.populate)
     }
-  }
 
-  return scoreRequest
+    return scoreRequest
 }
 
 module.exports.get = function get(req, res, next) {
@@ -55,9 +55,9 @@ module.exports.get = function get(req, res, next) {
         }
 
         if (scores.length > 0) {
-          res.send(res.paginate.getPaginatedResponse(scores))
+            res.send(res.paginate.getPaginatedResponse(scores))
         } else {
-          res.send({})
+            res.send({})
         }
         next()
     })

@@ -7,9 +7,9 @@ const ScoreSchema = new mongoose.Schema({
     'scenario': { type: String, ref: 'Scenario' },
     'nbFrames': Number,
     'averageFps': Number,
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
 }, {
-  versionKey: false
+    versionKey: false,
 })
 
 const Score = mongoose.model('Score', ScoreSchema)

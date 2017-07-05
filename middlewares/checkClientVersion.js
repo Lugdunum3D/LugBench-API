@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 const errors    = require('restify-errors')
 const config    = require('../config')
@@ -9,7 +9,7 @@ module.exports.checkClientVersion = function(req, res, next) {
         return next(new errors.UnauthorizedError('Bad user-agent'))
     }
     var ua = UserAgent.parse(req.headers['user-agent'])
-    if (ua.family !== "LugBench"  || ua.version() !== config.client_version){
+    if (ua.family !== 'LugBench'  || ua.version() !== config.clientVersion) {
         return next(new errors.UnauthorizedError('Bad user-agent'))
     }
     next()

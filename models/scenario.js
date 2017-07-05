@@ -6,7 +6,7 @@ const ScenarioSchema = new mongoose.Schema({
     'name': { type: String, unique: true },
     'description': String,
 }, {
-  versionKey: false
+    versionKey: false,
 })
 
 const Scenario = mongoose.model('Scenario', ScenarioSchema)
