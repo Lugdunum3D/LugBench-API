@@ -15,6 +15,10 @@
   this.source = source || '';
 }
 
+/**
+ * Display a readable version of the user agent 
+ * @returns a String contqining the version
+ */
 Agent.prototype.version = function version() {
     return this.major + '.' + this.minor + '.' + this.patch;
 };
