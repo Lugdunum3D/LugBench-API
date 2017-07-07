@@ -3,8 +3,8 @@
 const mongoose = require('mongoose')
 
 const ScenarioSchema = new mongoose.Schema({
-    'name': { type: String, unique: true },
-    'description': String,
+    'name': { type: String, required: true, unique: true },
+    'description': { type: String, required: true },
 }, {
     versionKey: false,
 })
