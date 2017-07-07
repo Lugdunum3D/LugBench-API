@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint .",
-    "test": "npm run -s lint && NODE_ENV='test' MONGODB_URI='mongodb://localhost:27017/lugbench-test' mocha"
+    "test": "npm run -s lint && NODE_ENV='test' MONGODB_URI='mongodb://localhost:27017/lugbench-test' mocha",
+    "start": "node index.js"
   },
   "author": "Lugdunum3D",
   "license": "MIT",
