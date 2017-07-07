@@ -34,7 +34,6 @@ Agent.prototype.version = function version() {
         return new Agent('', 0, 0, 0, userAgent);
     }
     let family = userAgentSplited[0];
-    let source = userAgentSplited[2];
     let versionSplitted = userAgentSplited[1].split('.');
     if (versionSplitted.length !== 3) {
          return new Agent('', 0, 0, 0, userAgent);
