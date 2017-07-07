@@ -2,26 +2,23 @@
 
 require('../index.js')
 
-const chai      = require('chai')
-const supertest = require('supertest')
-const mongoose  = require('mongoose')
-const waterfall = require('async/waterfall')
+const chai            = require('chai')
+const supertest       = require('supertest')
+const mongoose        = require('mongoose')
+const waterfall       = require('async/waterfall')
 
-const expect    = chai.expect
-const app       = supertest.agent('http://localhost:5000')
-const db        = mongoose.connection
+const expect          = chai.expect
+const app             = supertest.agent('http://localhost:5000')
+const db              = mongoose.connection
 
-const device530 = require('../assets/mocks/devices/530.json')
-const device960M = require('../assets/mocks/devices/960M.json')
+const device530       = require('../assets/mocks/devices/530.json')
+const device960M      = require('../assets/mocks/devices/960M.json')
 
-const pageUrlPattern = /^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/
+const pageUrlPattern  = /^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/
 
 describe('Device', function() {
 
-
-
     describe('GET /devices', function() {
-
         beforeEach(function (done) {
             waterfall([
                 function (callback){
@@ -35,8 +32,8 @@ describe('Device', function() {
                     })
                 },
                 function (device, callback) {
-                    db.collection('devices').insert(device960M, function(err, first) {
-                        return callback(err, first)
+                    db.collection('devices').insert(device960M, function(err, second) {
+                        return callback(err, second)
                     })
                 },
             ], function () {
@@ -99,7 +96,6 @@ describe('Device', function() {
                 })
         })
 
-
         it('should search the devices by deviceId', function(done) {
             app
                 .get(`/devices?deviceId=${device530.deviceId}`)
@@ -123,6 +119,7 @@ describe('Device', function() {
                 })
         })
     })
+
     describe('GET /devices/:id', function() {
         it('should return one device', function(done) {
             app
@@ -137,8 +134,7 @@ describe('Device', function() {
     })
 
     describe('POST /devices', function() {
-
-        before(function (done) {
+        beforeEach(function (done) {
             db.collection('devices').drop(function () {
                 return done()
             })
@@ -157,4 +153,3 @@ describe('Device', function() {
         })
     })
 })
-
