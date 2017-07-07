@@ -5,7 +5,7 @@
 	"vendorId": 32902,
 	"driverVersion": 1,
 	"vulkanInfo": {
-		"extension": [{
+		"extensions": [{
 				"extensionName": "VK_KHR_swapchain",
 				"specVersion": 68
 			},

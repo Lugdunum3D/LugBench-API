@@ -5,94 +5,50 @@
   "vendorId": 4318,
   "driverVersion": 378520,
 	"vulkanInfo": {
-	    "extension": [
+	    "extensions": [
 	        {
 	            "extensionName": "VK_KHR_swapchain",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 68
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_display_swapchain",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 9
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_maintenance1",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_shader_draw_parameters",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_sampler_mirror_clamp_to_edge",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_EXT_shader_subgroup_ballot",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_EXT_shader_subgroup_vote",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_dedicated_allocation",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_external_memory",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_glsl_shader",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NVX_device_generated_commands",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        }
 	    ],
 	    "features": {
