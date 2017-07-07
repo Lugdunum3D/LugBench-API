@@ -218,6 +218,17 @@ const DeviceSchema = new mongoose.Schema({
             'queueFlags': [String],
             'timestampValidBits': Number,
         }],
+        'swapchain': {
+            'maxImageArrayLayers': Number,
+            'minImageCount': Number,
+            'maxImageCount': Number,
+            'formats': [String],
+            'presentModes': [String],
+            'supportedTransforms': [String],
+            'supportedCompositeAlpha': [String],
+            'supportedUsageFlags': [String],
+            'surfaceExtension': String,
+        },
         'extensions': [{
             'extensionName': String,
             'specVersion': Number,
