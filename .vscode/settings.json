@@ -1,0 +1,22 @@
+// Placez vos paramètres dans ce fichier pour remplacer les paramètres par défaut et les paramètres utilisateur.
+{
+    "files.eol": "\n",
+    "eslint.autoFixOnSave": true,
+    "eslint.run": "onType",
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "nodejs"
+    ],
+    "eslint.workingDirectories": [
+        "client/",
+        ".eslintignore",
+        ".eslintrc.json",
+        "client.js",
+        "server/",
+        ".eslintignore",
+        ".eslintrc.json",
+        "server.js",
+    ]
+    
+}
