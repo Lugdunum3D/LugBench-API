@@ -17,37 +17,36 @@ const device960M      = require('../assets/mocks/devices/960M.json')
 const pageUrlPattern  = /^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/
 
 describe('Device', function() {
+    beforeEach(function (done) {
+        waterfall([
+            function (callback){
+                db.collection('devices').drop(function () {
+                    return callback()
+                })
+            },
+            function (callback) {
+                db.collection('devices').insert(device530, function(err, first) {
+                    return callback(err, first)
+                })
+            },
+            function (device, callback) {
+                db.collection('devices').insert(device960M, function(err, second) {
+                    return callback(err, second)
+                })
+            },
+        ], function () {
+            done()
+        })
+    })
 
     describe('GET /devices', function() {
-        beforeEach(function (done) {
-            waterfall([
-                function (callback){
-                    db.collection('devices').drop(function () {
-                        return callback()
-                    })
-                },
-                function (callback) {
-                    db.collection('devices').insert(device530, function(err, first) {
-                        return callback(err, first)
-                    })
-                },
-                function (device, callback) {
-                    db.collection('devices').insert(device960M, function(err, second) {
-                        return callback(err, second)
-                    })
-                },
-            ], function () {
-                done()
-            })
-        })
-
         it('should return a list of devices', function(done) {
             app.get('/devices')
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
+                    expect(res.body.data[0]._id).to.have.string(device530._id)
+                    expect(res.body.data[1]._id).to.have.string(device960M._id)
                     expect(res.statusCode).to.be.equal(200)
-                    expect(res.body.data[0].name).to.be.equal(device530.name)
-                    expect(res.body.data[1].name).to.be.equal(device960M.name)
                     done()
                 })
         })
@@ -57,7 +56,7 @@ describe('Device', function() {
                 .get(`/devices?name=${device530.name}`)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
-                    expect(res.body.data[0].name).to.be.equal(device530.name)
+                    expect(res.body.data[0]._id).to.have.string(device530._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -68,7 +67,7 @@ describe('Device', function() {
                 .get(`/devices?os=${device960M.os}`)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
-                    expect(res.body.data[0].name).to.be.equal(device960M.name)
+                    expect(res.body.data[0]._id).to.have.string(device960M._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -79,7 +78,7 @@ describe('Device', function() {
                 .get(`/devices?driverVersion=${device530.driverVersion}`)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
-                    expect(res.body.data[0].name).to.be.equal(device530.name)
+                    expect(res.body.data[0]._id).to.have.string(device530._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -90,7 +89,7 @@ describe('Device', function() {
                 .get(`/devices?vendorId=${device960M.vendorId}`)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
-                    expect(res.body.data[0].name).to.be.equal(device960M.name)
+                    expect(res.body.data[0]._id).to.have.string(device960M._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -101,7 +100,7 @@ describe('Device', function() {
                 .get(`/devices?deviceId=${device530.deviceId}`)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
-                    expect(res.body.data[0].name).to.be.equal(device530.name)
+                    expect(res.body.data[0]._id).to.have.string(device530._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -126,7 +125,7 @@ describe('Device', function() {
                 .get(`/devices/${device960M._id}`)
                 .end(function(err, res) {
                     expect(res.body.length).to.be.equal(1)
-                    expect(res.body[0].name).to.be.equal(device960M.name)
+                    expect(res.body[0]._id).to.have.string(device960M._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
