@@ -3389,24 +3389,33 @@
 	            "timestampValidBits": 64
 	        }
 	    ],
-	    "swapchain": [
-	        {
-	            "currentExtent": {
-	                "height": 600,
-	                "width": 800
-	            },
-	            "maxImageArrayLayers": 2048,
-	            "maxImageCount": 8,
-	            "maxImageExtent": {
-	                "height": 16384,
-	                "width": 16384
-	            },
-	            "minImageCount": 2,
-	            "minImageExtent": {
-	                "height": 1,
-	                "width": 1
-	            }
-	        }
-	    ]
+	    "swapchains": [{
+          "maxImageArrayLayers": 1,
+          "minImageCount": 2,
+          "maxImageCount": 0,
+          "formats": [
+              "VK_FORMAT_B8G8R8A8_SRGB",
+              "VK_FORMAT_"
+          ],
+          "presentModes": [
+              "VK_PRESENT_MODE_IMMEDIATE_KHR",
+              "VK_PRESENT_MODE_MAILBOX_KHR",
+              "VK_PRESENT_MODE_FIFO_KHR"
+          ],
+          "supportedTransforms": [
+              "VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR"
+          ],
+          "supportedCompositeAlpha": [
+              "VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR",
+              "VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR"
+          ],
+          "supportedUsageFlags": [
+              "VK_IMAGE_USAGE_TRANSFER_SRC_BIT",
+              "VK_IMAGE_USAGE_TRANSFER_DST_BIT",
+              "VK_IMAGE_USAGE_SAMPLED_BIT",
+              "VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT"
+          ],
+          "surfaceExtension": "VK_KHR_win32_surface"
+      }]
 	}
 }

@@ -204,8 +204,8 @@ const DeviceSchema = new mongoose.Schema({
                 'propertyFlags': [String],
             }],
             'memoryHeaps': [{
-                'heapIndex': Number,
-                'propertyFlags': [String],
+                'size': Number,
+                'flags': [String],
             }],
         },
         'queues': [{
@@ -218,7 +218,7 @@ const DeviceSchema = new mongoose.Schema({
             'queueFlags': { type: [String], required: true },
             'timestampValidBits': { type: Number, required: true },
         }],
-        'swapchain': {
+        'swapchains': [{
             'maxImageArrayLayers': Number,
             'minImageCount': Number,
             'maxImageCount': Number,
@@ -228,7 +228,7 @@ const DeviceSchema = new mongoose.Schema({
             'supportedCompositeAlpha': [String],
             'supportedUsageFlags': [String],
             'surfaceExtension': String,
-        },
+        }],
         'extensions': [{
             'extensionName': { type: String, required: true },
             'specVersion': { type: Number, required: true },

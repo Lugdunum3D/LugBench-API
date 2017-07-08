@@ -3,16 +3,29 @@
 /**
  * Module Dependencies
  */
-const config                = require('./config')
-const restify               = require('restify')
-const paginate              = require('restify-paginate')
-const winston               = require('winston')
-const bunyanWinston         = require('bunyan-winston-adapter')
-const mongoose              = require('mongoose')
-const autoload              = require('auto-load')
+const config                  = require('./config')
+const restify                 = require('restify')
+const paginate                = require('restify-paginate')
+const winston                 = require('winston')
+const bunyanWinston           = require('bunyan-winston-adapter')
+const mongoose                = require('mongoose')
+const autoload                = require('auto-load')
+const validator               = require('restify-joi-middleware')
+const errors                  = require('restify-errors')
 
-const checkClientVersion    = require('./middlewares/checkClientVersion').checkClientVersion
-const corsMiddleware        = require('./middlewares/cors').allowCrossDomain
+const checkClientVersion      = require('./middlewares/checkClientVersion').checkClientVersion
+const corsMiddleware          = require('./middlewares/cors').allowCrossDomain
+
+const validateDevicesGet      = require('./validation/devices/get')
+const validateDevicesGetId    = require('./validation/devices/get/id')
+const validateDevicesPost     = require('./validation/devices/post')
+
+const validateScoresGet       = require('./validation/scores/get')
+const validateScoresGetId     = require('./validation/scores/get/id')
+const validateScoresPost      = require('./validation/scores/post')
+
+const validateScenariosGet    = require('./validation/scenarios/get')
+const validateScenariosGetId  = require('./validation/scenarios/get/id')
 
 /**
  * Logging
@@ -28,6 +41,17 @@ const log = new winston.Logger({
         }),
     ],
 })
+
+/**
+ * Validation
+ */
+const joiOptions = {}
+const joiOverrides = {
+    errorResponder: (err, req, res, next) => {
+        log.error(err)
+        return next(new errors.BadRequestError(err.body.data[0].message))
+    },
+}
 
 /**
  * Initialize Server
@@ -46,6 +70,7 @@ server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
 server.use(paginate(server))
+server.use(validator(joiOptions, joiOverrides))
 
 /**
  * Error Handling
@@ -57,21 +82,21 @@ server.on('uncaughtException', (req, res, route, err) => {
 
 const configRoutes = function(server, handlers) {
     // Devices
-    server.get('/devices', [corsMiddleware], handlers.devices.index.get)
-    server.post('/devices', [corsMiddleware, checkClientVersion], handlers.devices.index.post)
+    server.get({ path: '/devices', validation: validateDevicesGet }, [corsMiddleware], handlers.devices.index.get)
+    server.post({ path: '/devices', validation: validateDevicesPost }, [corsMiddleware, checkClientVersion], handlers.devices.index.post)
 
-    server.get('/devices/:id', [corsMiddleware], handlers.devices.id.index.get)
+    server.get({ path: '/devices/:id', validation: validateDevicesGetId }, [corsMiddleware], handlers.devices.id.index.get)
 
     // Scores
-    server.get('/scores', [corsMiddleware], handlers.scores.index.get)
-    server.post('/scores', [corsMiddleware], handlers.scores.index.post)
+    server.get({ path: '/scores', validation: validateScoresGet }, [corsMiddleware], handlers.scores.index.get)
+    server.post({ path: '/scores', validation: validateScoresPost }, [corsMiddleware], handlers.scores.index.post)
 
-    server.get('/scores/:id', [corsMiddleware], handlers.scores.id.index.get)
+    server.get({ path: '/scores/:id', validation: validateScoresGetId }, [corsMiddleware], handlers.scores.id.index.get)
 
     // Scenarios
-    server.get('/scenarios', [corsMiddleware], handlers.scenarios.index.get)
+    server.get({ path: '/scenarios', validation: validateScenariosGet }, [corsMiddleware], handlers.scenarios.index.get)
 
-    server.get('/scenarios/:id', [corsMiddleware], handlers.scenarios.id.index.get)
+    server.get({ path: '/scenarios/:id', validation: validateScenariosGetId }, [corsMiddleware], handlers.scenarios.id.index.get)
 }
 
 /**
