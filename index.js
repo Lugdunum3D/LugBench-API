@@ -10,6 +10,8 @@ const winston               = require('winston')
 const bunyanWinston         = require('bunyan-winston-adapter')
 const mongoose              = require('mongoose')
 const autoload              = require('auto-load')
+const validator             = require('restify-joi-middleware')
+const errors                = require('restify-errors')
 
 const checkClientVersion    = require('./middlewares/checkClientVersion').checkClientVersion
 const corsMiddleware        = require('./middlewares/cors').allowCrossDomain
@@ -30,6 +32,17 @@ const log = new winston.Logger({
 })
 
 /**
+ * Validation
+ */
+const joiOptions = {}
+const joiOverrides = {
+    errorResponder: (err, req, res, next) => {
+        log.error(err)
+        return next(new errors.BadRequestError(err.body.data[0].message))
+    },
+}
+
+/**
  * Initialize Server
  */
 const server = restify.createServer({
@@ -46,6 +59,7 @@ server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
 server.use(restify.fullResponse())
 server.use(paginate(server))
+server.use(validator(joiOptions, joiOverrides))
 
 /**
  * Error Handling
