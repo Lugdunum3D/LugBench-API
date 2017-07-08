@@ -8,91 +8,47 @@
 	    "extensions": [
 	        {
 	            "extensionName": "VK_KHR_swapchain",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 68
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_display_swapchain",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 9
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_maintenance1",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_shader_draw_parameters",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_KHR_sampler_mirror_clamp_to_edge",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_EXT_shader_subgroup_ballot",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_EXT_shader_subgroup_vote",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_dedicated_allocation",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_external_memory",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NV_glsl_shader",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        },
 	        {
 	            "extensionName": "VK_NVX_device_generated_commands",
-	            "specVersion": {
-	                "major": 0,
-	                "minor": 0,
-	                "patch": 1
-	            }
+	            "specVersion": 1
 	        }
 	    ],
 	    "features": {
@@ -3433,24 +3389,33 @@
 	            "timestampValidBits": 64
 	        }
 	    ],
-	    "swapchain": [
-	        {
-	            "currentExtent": {
-	                "height": 600,
-	                "width": 800
-	            },
-	            "maxImageArrayLayers": 2048,
-	            "maxImageCount": 8,
-	            "maxImageExtent": {
-	                "height": 16384,
-	                "width": 16384
-	            },
-	            "minImageCount": 2,
-	            "minImageExtent": {
-	                "height": 1,
-	                "width": 1
-	            }
-	        }
-	    ]
+	    "swapchains": [{
+          "maxImageArrayLayers": 1,
+          "minImageCount": 2,
+          "maxImageCount": 0,
+          "formats": [
+              "VK_FORMAT_B8G8R8A8_SRGB",
+              "VK_FORMAT_"
+          ],
+          "presentModes": [
+              "VK_PRESENT_MODE_IMMEDIATE_KHR",
+              "VK_PRESENT_MODE_MAILBOX_KHR",
+              "VK_PRESENT_MODE_FIFO_KHR"
+          ],
+          "supportedTransforms": [
+              "VK_SURFACE_TRANSFORM_IDENTITY_BIT_KHR"
+          ],
+          "supportedCompositeAlpha": [
+              "VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR",
+              "VK_COMPOSITE_ALPHA_INHERIT_BIT_KHR"
+          ],
+          "supportedUsageFlags": [
+              "VK_IMAGE_USAGE_TRANSFER_SRC_BIT",
+              "VK_IMAGE_USAGE_TRANSFER_DST_BIT",
+              "VK_IMAGE_USAGE_SAMPLED_BIT",
+              "VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT"
+          ],
+          "surfaceExtension": "VK_KHR_win32_surface"
+      }]
 	}
 }
