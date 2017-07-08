@@ -15,6 +15,7 @@
     "auto-load": "^2.1.2",
     "bunyan-winston-adapter": "^0.2.0",
     "chai": "^4.0.2",
+    "joi": "^10.6.0",
     "joi-objectid": "^2.0.0",
     "lodash": "^4.17.4",
     "mocha": "^3.4.2",
