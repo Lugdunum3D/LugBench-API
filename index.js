@@ -16,6 +16,10 @@ const errors                = require('restify-errors')
 const checkClientVersion    = require('./middlewares/checkClientVersion').checkClientVersion
 const corsMiddleware        = require('./middlewares/cors').allowCrossDomain
 
+const validateDevicesGet    = require('./validation/devices/get')
+const validateDevicesGetId  = require('./validation/devices/get/id')
+const validateDevicesPost   = require('./validation/devices/post')
+
 /**
  * Logging
  */
@@ -71,10 +75,10 @@ server.on('uncaughtException', (req, res, route, err) => {
 
 const configRoutes = function(server, handlers) {
     // Devices
-    server.get('/devices', [corsMiddleware], handlers.devices.index.get)
-    server.post('/devices', [corsMiddleware, checkClientVersion], handlers.devices.index.post)
+    server.get({ path: '/devices', validation: validateDevicesGet }, [corsMiddleware], handlers.devices.index.get)
+    server.post({ path: '/devices', validation: validateDevicesPost }, [corsMiddleware, checkClientVersion], handlers.devices.index.post)
 
-    server.get('/devices/:id', [corsMiddleware], handlers.devices.id.index.get)
+    server.get({ path: '/devices/:id', validation: validateDevicesGetId }, [corsMiddleware], handlers.devices.id.index.get)
 
     // Scores
     server.get('/scores', [corsMiddleware], handlers.scores.index.get)
