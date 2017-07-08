@@ -20,6 +20,10 @@ const validateDevicesGet    = require('./validation/devices/get')
 const validateDevicesGetId  = require('./validation/devices/get/id')
 const validateDevicesPost   = require('./validation/devices/post')
 
+const validateScoresGet     = require('./validation/scores/get')
+const validateScoresGetId   = require('./validation/scores/get/id')
+const validateScoresPost    = require('./validation/scores/post')
+
 /**
  * Logging
  */
@@ -81,10 +85,10 @@ const configRoutes = function(server, handlers) {
     server.get({ path: '/devices/:id', validation: validateDevicesGetId }, [corsMiddleware], handlers.devices.id.index.get)
 
     // Scores
-    server.get('/scores', [corsMiddleware], handlers.scores.index.get)
-    server.post('/scores', [corsMiddleware], handlers.scores.index.post)
+    server.get({ path: '/scores', validation: validateScoresGet }, [corsMiddleware], handlers.scores.index.get)
+    server.post({ path: '/scores', validation: validateScoresPost }, [corsMiddleware], handlers.scores.index.post)
 
-    server.get('/scores/:id', [corsMiddleware], handlers.scores.id.index.get)
+    server.get({ path: '/scores/:id', validation: validateScoresGetId }, [corsMiddleware], handlers.scores.id.index.get)
 
     // Scenarios
     server.get('/scenarios', [corsMiddleware], handlers.scenarios.index.get)
