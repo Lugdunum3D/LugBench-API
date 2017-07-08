@@ -204,8 +204,8 @@ const DeviceSchema = new mongoose.Schema({
                 'propertyFlags': [String],
             }],
             'memoryHeaps': [{
-                'heapIndex': Number,
-                'propertyFlags': [String],
+                'size': Number,
+                'flags': [String],
             }],
         },
         'queues': [{
