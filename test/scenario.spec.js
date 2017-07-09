@@ -21,17 +21,17 @@ describe('Scenario', function() {
         waterfall([
             function (callback){
                 db.collection('scenarios').drop(function () {
-                    return callback()
+                    callback()
                 })
             },
             function (callback) {
-                db.collection('scenarios').insert(scenarioForce, function(err, first) {
-                    return callback(err, first)
+                db.collection('scenarios').insert(scenarioForce, function() {
+                    callback()
                 })
             },
-            function (device, callback) {
-                db.collection('scenarios').insert(scenarioEnterprise, function(err, second) {
-                    return callback(err, second)
+            function (callback) {
+                db.collection('scenarios').insert(scenarioEnterprise, function() {
+                    callback()
                 })
             },
         ], function () {

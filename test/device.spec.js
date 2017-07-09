@@ -21,17 +21,17 @@ describe('Device', function() {
         waterfall([
             function (callback){
                 db.collection('devices').drop(function () {
-                    return callback()
+                    callback()
                 })
             },
             function (callback) {
-                db.collection('devices').insert(device530, function(err, first) {
-                    return callback(err, first)
+                db.collection('devices').insert(device530, function() {
+                    callback()
                 })
             },
-            function (device, callback) {
-                db.collection('devices').insert(device960M, function(err, second) {
-                    return callback(err, second)
+            function (callback) {
+                db.collection('devices').insert(device960M, function() {
+                    callback()
                 })
             },
         ], function () {
@@ -44,8 +44,6 @@ describe('Device', function() {
             app.get('/devices')
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
-                    expect(res.body.data[0]._id).to.have.string(device530._id)
-                    expect(res.body.data[1]._id).to.have.string(device960M._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
@@ -134,8 +132,14 @@ describe('Device', function() {
 
     describe('POST /devices', function() {
         beforeEach(function (done) {
-            db.collection('devices').drop(function () {
-                return done()
+            waterfall([
+                function (callback){
+                    db.collection('devices').drop(function () {
+                        callback()
+                    })
+                },
+            ], function () {
+                done()
             })
         })
 
