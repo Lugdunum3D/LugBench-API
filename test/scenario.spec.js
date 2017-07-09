@@ -14,7 +14,7 @@ const db                  = mongoose.connection
 const scenarioForce       = require('../assets/mocks/scenarios/force.json')
 const scenarioEnterprise  = require('../assets/mocks/scenarios/enterprise.json')
 
-const pageUrlPattern  = /^(http:\/\/localhost:5000\/scenarios\?per_page=.&page=.)/
+const pageUrlPattern      = /^(http:\/\/localhost:5000\/scenarios\?per_page=.&page=.)/
 
 describe('Scenario', function() {
     beforeEach(function (done) {
@@ -45,8 +45,6 @@ describe('Scenario', function() {
                 .get('/scenarios')
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
-                    expect(res.body.data[0]._id).to.have.string(scenarioForce._id)
-                    expect(res.body.data[1]._id).to.have.string(scenarioEnterprise._id)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
