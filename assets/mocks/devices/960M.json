@@ -3389,7 +3389,7 @@
 	            "timestampValidBits": 64
 	        }
 	    ],
-	    "swapchains": [{
+	    "swapchain": {
           "maxImageArrayLayers": 1,
           "minImageCount": 2,
           "maxImageCount": 0,
@@ -3416,6 +3416,6 @@
               "VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT"
           ],
           "surfaceExtension": "VK_KHR_win32_surface"
-      }]
+      }
 	}
 }

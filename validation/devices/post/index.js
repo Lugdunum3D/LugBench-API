@@ -217,7 +217,7 @@ module.exports = {
                 'queueFlags': Joi.array().items(Joi.string()).required(),
                 'timestampValidBits': Joi.number().required(),
             })).required(),
-            'swapchains': Joi.array().items(Joi.object().keys({
+            'swapchain': Joi.object().keys({
                 'maxImageArrayLayers': Joi.number(),
                 'minImageCount': Joi.number(),
                 'maxImageCount': Joi.number(),
@@ -227,7 +227,7 @@ module.exports = {
                 'supportedCompositeAlpha': Joi.array().items(Joi.string()),
                 'supportedUsageFlags': Joi.array().items(Joi.string()),
                 'surfaceExtension': Joi.string(),
-            })),
+            }).required(),
             'extensions': Joi.array().items(Joi.object().keys({
                 'extensionName': Joi.string().required(),
                 'specVersion': Joi.number().required(),
