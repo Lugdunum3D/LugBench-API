@@ -154,5 +154,30 @@ describe('Device', function() {
                     done()
                 })
         })
+
+        it('should detect a device duplication', function(done) {
+            waterfall([
+                function (callback){
+                    app
+                        .post('/devices')
+                        .send(device960M)
+                        .set('user-agent', 'LugBench/0.1.0')
+                        .end(function() {
+                            callback()
+                        })
+                },
+            ], function () {
+                app
+                    .post('/devices')
+                    .send(device960M)
+                    .set('user-agent', 'LugBench/0.1.0')
+                    .end(function(err, res) {
+                        expect(res.body.code).to.be.equal('Internal')
+                        expect(res.body.message).to.have.string('duplicate')
+                        expect(res.statusCode).to.be.equal(500)
+                        done()
+                    })
+            })
+        })
     })
 })
