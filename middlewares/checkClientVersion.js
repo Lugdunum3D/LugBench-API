@@ -2,15 +2,16 @@
 
 const errors    = require('restify-errors')
 const config    = require('../config')
-const UserAgent = require('../common/userAgent')
+
 
 module.exports.checkClientVersion = function(req, res, next) {
     if (!req.headers['user-agent']) {
         return next(new errors.UnauthorizedError('Bad user-agent'))
     }
-    var ua = UserAgent.parse(req.headers['user-agent'])
-    if (ua.family !== 'LugBench'  || ua.version() !== config.clientVersion) {
-        return next(new errors.UnauthorizedError('Bad user-agent'))
+
+    const elementToCheck = 'LugBench/' + config.clientVersion
+    if (req.headers['user-agent'].indexOf(elementToCheck) === 0){
+        return next()
     }
-    next()
+    return next(new errors.UnauthorizedError('Bad user-agent: missing Lugbench client version'))
 }
