@@ -50,7 +50,9 @@ module.exports.get = function get(req, res, next) {
     reqFromParams(req.params).exec(function(err, scores) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
@@ -70,7 +72,9 @@ module.exports.post = function post(req, res, next) {
     score.save(function(err, score) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InternalError(err.message))
         }
 

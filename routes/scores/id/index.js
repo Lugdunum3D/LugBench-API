@@ -10,7 +10,9 @@ module.exports.get = function get(req, res, next) {
     Score.find({ _id: req.params.id }, function(err, score) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 

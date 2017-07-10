@@ -10,7 +10,9 @@ module.exports.get = function get(req, res, next) {
     Device.find({ _id: req.params.id }, function(err, device) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 

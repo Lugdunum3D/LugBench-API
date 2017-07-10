@@ -13,7 +13,9 @@ module.exports.get = function get(req, res, next) {
     Device.find(findParams, function(err, devices) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
@@ -33,7 +35,9 @@ module.exports.post = function post(req, res, next) {
     device.save(function(err, device) {
 
         if (err) {
-            log.error(err)
+            if (process.env.NODE_ENV !== 'test') {
+                log.error(err)
+            }
             return next(new errors.InternalError(err.message))
         }
 
