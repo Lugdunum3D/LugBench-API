@@ -36,10 +36,9 @@ npm install
 
 # Run the API
 
-To start the API, type the command lines below.
+To start the API, type the command line below.
 
 ```
-export AUTH_TOKEN="your_auth_token"
 npm start
 ```
 
@@ -51,10 +50,17 @@ export PORT=3000
 
 # Routes
 
-Routes                       | Description
----------------------------- | -----------
-`GET /api/:version/gpus`     | Return an array containing all existing gpus
-`GET /api/:version/gpus/:id` | Return a specific gpu with a specific id
-`PUT /api/:version/gpus`     | Add a new gpu
+Routes                | Description
+--------------------- | -----------
+`GET /devices`        | Return an array containing all existing devices
+`GET /devices/:id`    | Return a specific device with a specific id
+`POST /devices`       | Add a new device
+`GET /scenarios`      | Return an array containing all existing scenarios
+`GET /scenarios/:id`  | Return a specific scenario with a specific id
+`GET /scores`         | Return an array containing all existing scores
+`GET /scores/:id`     | Return a specific score with a specific id
+`POST /scores`        | Add a new score
 
-Details for a Gpu can be found [here](./v1/models/gpu.js)
+Details for a device can be found [here](./models/device.js)
+Details for a scenario can be found [here](./models/scenario.js)
+Details for a score can be found [here](./models/score.js)
