@@ -172,9 +172,8 @@ describe('Device', function() {
                     .send(device960M)
                     .set('user-agent', 'LugBench/0.1.0')
                     .end(function(err, res) {
-                        expect(res.body.code).to.be.equal('Internal')
-                        expect(res.body.message).to.have.string('duplicate')
-                        expect(res.statusCode).to.be.equal(500)
+                        expect(res.body._id).to.not.be.null
+                        expect(res.statusCode).to.be.equal(409)
                         done()
                     })
             })

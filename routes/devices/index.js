@@ -31,8 +31,9 @@ module.exports.get = function get(req, res, next) {
 module.exports.post = function post(req, res, next) {
     let data = req.body || {}
     let device = new Device(data)
+    let existingData = _.pick(req.params, ['name', 'os', 'driverVersion', 'vendorId', 'deviceId'])
 
-    device.save(function(err, device) {
+    Device.findOne(existingData, function(err, existingDevice) {
 
         if (err) {
             if (process.env.NODE_ENV !== 'test') {
@@ -41,8 +42,28 @@ module.exports.post = function post(req, res, next) {
             return next(new errors.InternalError(err.message))
         }
 
-        res.send(201, { id: device.id })
+        if (existingDevice) {
 
-        next()
+            res.send(409, { id: existingDevice.id })
+
+            next()
+
+        } else {
+            device.save(function(err, device) {
+
+                if (err) {
+                    if (process.env.NODE_ENV !== 'test') {
+                        log.error(err)
+                    }
+                    return next(new errors.InternalError(err.message))
+                }
+
+                res.send(201, { id: device.id })
+
+                next()
+            })
+        }
+
     })
+
 }
