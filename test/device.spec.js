@@ -2,6 +2,7 @@
 
 require('../index.js')
 
+const _               = require('lodash')
 const chai            = require('chai')
 const supertest       = require('supertest')
 const mongoose        = require('mongoose')
@@ -151,6 +152,36 @@ describe('Device', function() {
                 .end(function(err, res) {
                     expect(res.body._id).to.not.be.null
                     expect(res.statusCode).to.be.equal(201)
+                    done()
+                })
+        })
+
+        it('should reject a bad request', function(done) {
+            let wrongDevice960M = _.cloneDeep(device960M)
+            delete wrongDevice960M.driverVersion
+            app
+                .post('/devices')
+                .send(wrongDevice960M)
+                .set('user-agent', 'LugBench/0.1.0')
+                .end(function(err, res) {
+                    expect(res.body.code).to.be.equal('BadRequest')
+                    expect(res.body.message).to.be.equal('"driverVersion" is required')
+                    expect(res.statusCode).to.be.equal(400)
+                    done()
+                })
+        })
+
+        it('should reject a bad request from vulkanInfo', function(done) {
+            let wrongDevice960M = _.cloneDeep(device960M)
+            delete wrongDevice960M.vulkanInfo.features.alphaToOne
+            app
+                .post('/devices')
+                .send(wrongDevice960M)
+                .set('user-agent', 'LugBench/0.1.0')
+                .end(function(err, res) {
+                    expect(res.body.code).to.be.equal('BadRequest')
+                    expect(res.body.message).to.be.equal('"alphaToOne" is required')
+                    expect(res.statusCode).to.be.equal(400)
                     done()
                 })
         })

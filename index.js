@@ -48,7 +48,9 @@ const log = new winston.Logger({
 const joiOptions = {}
 const joiOverrides = {
     errorResponder: (err, req, res, next) => {
-        log.error(err)
+        if (process.env.NODE_ENV !== 'test') {
+            log.error(err)
+        }
         return next(new errors.BadRequestError(err.body.data[0].message))
     },
 }

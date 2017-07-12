@@ -2,6 +2,7 @@
 
 require('../index.js')
 
+const _                   = require('lodash')
 const chai                = require('chai')
 const supertest           = require('supertest')
 const mongoose            = require('mongoose')
@@ -314,6 +315,21 @@ describe('Score', function() {
                 .end(function(err, res) {
                     expect(res.body._id).to.not.be.null
                     expect(res.statusCode).to.be.equal(201)
+                    done()
+                })
+        })
+
+        it('should reject a bad request', function(done) {
+            let wrongScore40 = _.cloneDeep(score40)
+            delete wrongScore40.nbFrames
+            app
+                .post('/scores')
+                .send(wrongScore40)
+                .set('user-agent', 'LugBench/0.1.0')
+                .end(function(err, res) {
+                    expect(res.body.code).to.be.equal('BadRequest')
+                    expect(res.body.message).to.be.equal('"nbFrames" is required')
+                    expect(res.statusCode).to.be.equal(400)
                     done()
                 })
         })
