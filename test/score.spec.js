@@ -317,6 +317,32 @@ describe('Score', function() {
                     done()
                 })
         })
+
+        it('should reject a bad device', function(done) {
+            score40.device = '000000000000000000000000'
+            app
+                .post('/scores')
+                .send(score40)
+                .end(function(err, res) {
+                    expect(res.body.code).to.be.equal('Forbidden')
+                    expect(res.body.message).to.be.equal('missing device or scenario')
+                    expect(res.statusCode).to.be.equal(403)
+                    done()
+                })
+        })
+
+        it('should reject a bad scenario', function(done) {
+            score40.scenario = '000000000000000000000000'
+            app
+                .post('/scores')
+                .send(score40)
+                .end(function(err, res) {
+                    expect(res.body.code).to.be.equal('Forbidden')
+                    expect(res.body.message).to.be.equal('missing device or scenario')
+                    expect(res.statusCode).to.be.equal(403)
+                    done()
+                })
+        })
     })
 
 })

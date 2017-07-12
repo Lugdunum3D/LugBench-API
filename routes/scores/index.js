@@ -1,10 +1,13 @@
 'use strict'
 
-const errors  = require('restify-errors')
-const _       = require('lodash')
+const errors    = require('restify-errors')
+const _         = require('lodash')
 
-const log     = require('../../index').log
-const Score   = require('../../models/score')
+const log       = require('../../index').log
+const Device    = require('../../models/device')
+const Scenario  = require('../../models/scenario')
+const Score     = require('../../models/score')
+
 
 function getIdFromGroupParams(groupParams) {
     let groupId = {}
@@ -68,17 +71,25 @@ module.exports.get = function get(req, res, next) {
 module.exports.post = function post(req, res, next) {
     let data = req.body || {}
 
-    let score = new Score(data)
-    score.save(function(err, score) {
+    Device.count({ _id: data.device }, function (err, deviceCount) {
+        Scenario.count({ _id: data.scenario }, function (err, scenarioCount) {
+            if (deviceCount > 0 && scenarioCount > 0) {
+                let score = new Score(data)
+                score.save(function(err, score) {
 
-        if (err) {
-            if (process.env.NODE_ENV !== 'test') {
-                log.error(err)
+                    if (err) {
+                        if (process.env.NODE_ENV !== 'test') {
+                            log.error(err)
+                        }
+                        return next(new errors.InternalError(err.message))
+                    }
+
+                    res.send(201, { id: score.id })
+                    next()
+                })
+            } else {
+                return next(new errors.ForbiddenError('missing device or scenario'))
             }
-            return next(new errors.InternalError(err.message))
-        }
-
-        res.send(201, { id: score.id })
-        next()
+        })
     })
 }
