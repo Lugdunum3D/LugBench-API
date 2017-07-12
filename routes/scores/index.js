@@ -46,6 +46,8 @@ function reqFromParams(params) {
         }
     }
 
+    scoreRequest = scoreRequest.sort({ averageFps: 'desc' })
+
     return scoreRequest
 }
 
