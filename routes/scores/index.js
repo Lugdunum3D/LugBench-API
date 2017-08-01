@@ -22,14 +22,13 @@ function getIdFromGroupParams(groupParams) {
     return groupId
 }
 
-function reqFromParams(params) {
+function reqFromParams(params, cb) {
     const findParams = _.pick(params, ['device', 'scenario'])
     const populateParams = _.pick(params, ['populate'])
     const aggregateParams = _.pick(params, ['group'])
-    let scoreRequest
 
     if (aggregateParams.group) {
-        scoreRequest = Score.aggregate([
+        Score.aggregate([
             {
                 $group: {
                     _id: getIdFromGroupParams(aggregateParams.group),
@@ -38,22 +37,22 @@ function reqFromParams(params) {
                     },
                 },
             },
-        ])
+        ], !populateParams.populate ? null : function(err, transaction) {
+            if (populateParams.populate === 'device') {
+                Device.populate(transaction, { path: `_id.${populateParams.populate}` }, cb)
+            } else {
+                Scenario.populate(transaction, { path: `_id.${populateParams.populate}` }, cb)
+            }
+        })
     } else {
-        scoreRequest = Score.find(findParams)
         if (populateParams.populate) {
-            scoreRequest = scoreRequest.populate(populateParams.populate)
+            Score.find(findParams).populate(populateParams.populate, cb)
         }
     }
-
-    scoreRequest = scoreRequest.sort({ averageFps: 'desc' })
-
-    return scoreRequest
 }
 
 module.exports.get = function get(req, res, next) {
-    reqFromParams(req.params).exec(function(err, scores) {
-
+    reqFromParams(req.params, function(err, scores) {
         if (err) {
             if (process.env.NODE_ENV !== 'test') {
                 log.error(err)
