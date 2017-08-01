@@ -47,6 +47,9 @@ function reqFromParams(params, cb) {
     } else {
         if (populateParams.populate) {
             Score.find(findParams).populate(populateParams.populate, cb)
+        } else {
+            let scoreRequest = Score.find(findParams)
+            scoreRequest.sort({ averageFps: 'desc' }).exec(cb)
         }
     }
 }
@@ -60,7 +63,7 @@ module.exports.get = function get(req, res, next) {
             return next(new errors.InvalidContentError(err.errors.name.message))
         }
 
-        if (scores.length > 0) {
+        if (scores && scores.length > 0) {
             res.send(res.paginate.getPaginatedResponse(scores))
         } else {
             res.send({})
