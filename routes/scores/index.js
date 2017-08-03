@@ -22,40 +22,77 @@ function getIdFromGroupParams(groupParams) {
     return groupId
 }
 
-function reqFromParams(params, cb) {
+function getAggregateFromParams(aggregateParams, populateParams) {
+    let aggregateRequest = [
+        {
+            $group: {
+                _id: getIdFromGroupParams(aggregateParams.group),
+                averageFps: {
+                    $avg: '$averageFps',
+                },
+            },
+        },
+    ]
+
+    if (_.isString(populateParams.populate)) {
+        aggregateRequest.push({
+            $lookup: {
+                from: `${populateParams.populate}s`,
+                localField: `_id.${populateParams.populate}`,
+                foreignField: '_id',
+                as: `${populateParams.populate}`,
+            },
+        })
+        aggregateRequest.push({
+            $unwind: {
+                path: `$${populateParams.populate}`,
+                preserveNullAndEmptyArrays: true,
+            },
+        })
+    } else if (_.isArray(populateParams.populate)) {
+        _.forEach(populateParams.populate, function(value) {
+            aggregateRequest.push({
+                $lookup: {
+                    from: `${value}s`,
+                    localField: `_id.${value}`,
+                    foreignField: '_id',
+                    as: `${value}`,
+                },
+            })
+            aggregateRequest.push({
+                $unwind: {
+                    path: `$${value}`,
+                    preserveNullAndEmptyArrays: true,
+                },
+            })
+        })
+    }
+    return aggregateRequest
+}
+
+function reqFromParams(params) {
     const findParams = _.pick(params, ['device', 'scenario'])
     const populateParams = _.pick(params, ['populate'])
     const aggregateParams = _.pick(params, ['group'])
+    let scoreRequest
 
     if (aggregateParams.group) {
-        Score.aggregate([
-            {
-                $group: {
-                    _id: getIdFromGroupParams(aggregateParams.group),
-                    averageFps: {
-                        $avg: '$averageFps',
-                    },
-                },
-            },
-        ], !populateParams.populate ? null : function(err, transaction) {
-            if (populateParams.populate === 'device') {
-                Device.populate(transaction, { path: `_id.${populateParams.populate}` }, cb)
-            } else {
-                Scenario.populate(transaction, { path: `_id.${populateParams.populate}` }, cb)
-            }
-        })
+        scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams, populateParams))
     } else {
+        scoreRequest = Score.find(findParams)
         if (populateParams.populate) {
-            Score.find(findParams).populate(populateParams.populate, cb)
-        } else {
-            let scoreRequest = Score.find(findParams)
-            scoreRequest.sort({ averageFps: 'desc' }).exec(cb)
+            scoreRequest = scoreRequest.populate(populateParams.populate)
         }
     }
+
+    scoreRequest = scoreRequest.sort({ averageFps: 'desc' })
+
+    return scoreRequest
 }
 
 module.exports.get = function get(req, res, next) {
-    reqFromParams(req.params, function(err, scores) {
+    reqFromParams(req.params).exec(function(err, scores) {
+
         if (err) {
             if (process.env.NODE_ENV !== 'test') {
                 log.error(err)
