@@ -35,3 +35,6 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+.vs/LugBench-API/v15/.suo
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
