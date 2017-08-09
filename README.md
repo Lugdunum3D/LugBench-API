@@ -36,9 +36,10 @@ npm install
 
 # Run the API
 
-To start the API, type the command line below.
+To start the API, type the command lines below.
 
 ```
+export AUTH_TOKEN="your_auth_token"
 npm start
 ```
 
