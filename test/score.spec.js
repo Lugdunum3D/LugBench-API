@@ -22,6 +22,10 @@ const score120            = require('../assets/mocks/scores/120.json')
 const score160            = require('../assets/mocks/scores/160.json')
 
 const pageUrlPattern      = /^(http:\/\/localhost:5000\/scores\?per_page=.&page=.)/
+const requestHeaders      = {
+    'content-type': 'application/json',
+    'user-agent': 'LugBench/0.1.0',
+}
 
 describe('Score', function() {
     beforeEach(function (done) {
@@ -98,6 +102,7 @@ describe('Score', function() {
         it('should return a list of scores', function(done) {
             app
                 .get('/scores')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(4)
                     expect(res.statusCode).to.be.equal(200)
@@ -108,6 +113,7 @@ describe('Score', function() {
         it('should populate the scores with devices', function(done) {
             app
                 .get('/scores?populate=device')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(4)
                     expect(res.body.data[0]._id).to.have.string(score160._id)
@@ -126,6 +132,7 @@ describe('Score', function() {
         it('should populate the scores with scenarios', function(done) {
             app
                 .get('/scores?populate=scenario')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(4)
                     expect(res.body.data[0]._id).to.have.string(score160._id)
@@ -144,6 +151,7 @@ describe('Score', function() {
         it('should populate the scores with devices and scenarios', function(done) {
             app
                 .get('/scores?populate=device&populate=scenario')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(4)
                     expect(res.body.data[0]._id).to.have.string(score160._id)
@@ -167,6 +175,7 @@ describe('Score', function() {
         it('should group the scores by devices', function(done) {
             app
                 .get('/scores?group=device')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
                     expect(res.body.data[0].averageFps).to.be.equal(100)
@@ -179,6 +188,7 @@ describe('Score', function() {
         it('should group the scores by scenarios', function(done) {
             app
                 .get('/scores?group=scenario')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
                     expect(res.body.data[0].averageFps).to.be.equal(100)
@@ -191,6 +201,7 @@ describe('Score', function() {
         it('should group the scores by devices and scenarios', function(done) {
             app
                 .get('/scores?group=device&group=scenario')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
                     expect(res.body.data[0].averageFps).to.be.equal(100)
@@ -203,6 +214,7 @@ describe('Score', function() {
         it('should paginate the scores', function(done) {
             app
                 .get('/scores?per_page=1&page=1')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.pages.last).to.match(pageUrlPattern)
@@ -217,6 +229,7 @@ describe('Score', function() {
         it('should return one score', function(done) {
             app
                 .get('/scores/' + score40._id)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.length).to.be.equal(1)
                     expect(res.body[0]._id).to.have.string(score40._id)
@@ -248,6 +261,7 @@ describe('Score', function() {
             app
                 .post('/scores')
                 .send(score40)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body._id).to.not.be.null
                     expect(res.statusCode).to.be.equal(201)
@@ -261,7 +275,7 @@ describe('Score', function() {
             app
                 .post('/scores')
                 .send(wrongScore40)
-                .set('user-agent', 'LugBench/0.1.0')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.code).to.be.equal('BadRequest')
                     expect(res.body.message).to.be.equal('"nbFrames" is required')
@@ -275,6 +289,7 @@ describe('Score', function() {
             app
                 .post('/scores')
                 .send(score40)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.code).to.be.equal('Forbidden')
                     expect(res.body.message).to.be.equal('missing device or scenario')
@@ -288,6 +303,7 @@ describe('Score', function() {
             app
                 .post('/scores')
                 .send(score40)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.code).to.be.equal('Forbidden')
                     expect(res.body.message).to.be.equal('missing device or scenario')

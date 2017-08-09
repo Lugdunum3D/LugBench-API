@@ -16,6 +16,10 @@ const device530       = require('../assets/mocks/devices/530.json')
 const device960M      = require('../assets/mocks/devices/960M.json')
 
 const pageUrlPattern  = /^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/
+const requestHeaders  = {
+    'content-type': 'application/json',
+    'user-agent': 'LugBench/0.1.0',
+}
 
 describe('Device', function() {
     beforeEach(function (done) {
@@ -43,6 +47,7 @@ describe('Device', function() {
     describe('GET /devices', function() {
         it('should return a list of devices', function(done) {
             app.get('/devices')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(2)
                     expect(res.statusCode).to.be.equal(200)
@@ -53,6 +58,7 @@ describe('Device', function() {
         it('should search the devices by name', function(done) {
             app
                 .get(`/devices?name=${device530.name}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.data[0]._id).to.have.string(device530._id)
@@ -64,6 +70,7 @@ describe('Device', function() {
         it('should search the devices by os', function(done) {
             app
                 .get(`/devices?os=${device960M.os}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.data[0]._id).to.have.string(device960M._id)
@@ -75,6 +82,7 @@ describe('Device', function() {
         it('should search the devices by driverVersion', function(done) {
             app
                 .get(`/devices?driverVersion=${device530.driverVersion}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.data[0]._id).to.have.string(device530._id)
@@ -86,6 +94,7 @@ describe('Device', function() {
         it('should search the devices by vendorId', function(done) {
             app
                 .get(`/devices?vendorId=${device960M.vendorId}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.data[0]._id).to.have.string(device960M._id)
@@ -97,6 +106,7 @@ describe('Device', function() {
         it('should search the devices by deviceId', function(done) {
             app
                 .get(`/devices?deviceId=${device530.deviceId}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.data[0]._id).to.have.string(device530._id)
@@ -108,6 +118,7 @@ describe('Device', function() {
         it('should paginate the devices', function(done) {
             app
                 .get('/devices?per_page=1&page=1')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.data.length).to.be.equal(1)
                     expect(res.body.pages.last).to.match(pageUrlPattern)
@@ -122,6 +133,7 @@ describe('Device', function() {
         it('should return one device', function(done) {
             app
                 .get(`/devices/${device960M._id}`)
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.length).to.be.equal(1)
                     expect(res.body[0]._id).to.have.string(device960M._id)
@@ -148,7 +160,7 @@ describe('Device', function() {
             app
                 .post('/devices')
                 .send(device960M)
-                .set('user-agent', 'LugBench/0.1.0')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body._id).to.not.be.null
                     expect(res.statusCode).to.be.equal(201)
@@ -162,7 +174,7 @@ describe('Device', function() {
             app
                 .post('/devices')
                 .send(wrongDevice960M)
-                .set('user-agent', 'LugBench/0.1.0')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.code).to.be.equal('BadRequest')
                     expect(res.body.message).to.be.equal('"driverVersion" is required')
@@ -177,7 +189,7 @@ describe('Device', function() {
             app
                 .post('/devices')
                 .send(wrongDevice960M)
-                .set('user-agent', 'LugBench/0.1.0')
+                .set(requestHeaders)
                 .end(function(err, res) {
                     expect(res.body.code).to.be.equal('BadRequest')
                     expect(res.body.message).to.be.equal('"alphaToOne" is required')
@@ -192,7 +204,7 @@ describe('Device', function() {
                     app
                         .post('/devices')
                         .send(device960M)
-                        .set('user-agent', 'LugBench/0.1.0')
+                        .set(requestHeaders)
                         .end(function() {
                             callback()
                         })
@@ -201,7 +213,7 @@ describe('Device', function() {
                 app
                     .post('/devices')
                     .send(device960M)
-                    .set('user-agent', 'LugBench/0.1.0')
+                    .set(requestHeaders)
                     .end(function(err, res) {
                         expect(res.body._id).to.not.be.null
                         expect(res.statusCode).to.be.equal(409)
