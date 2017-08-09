@@ -14,6 +14,7 @@ const validator               = require('restify-joi-middleware')
 const errors                  = require('restify-errors')
 
 const checkClientVersion      = require('./middlewares/checkClientVersion').checkClientVersion
+const checkContentType        = require('./middlewares/checkContentType').checkContentType
 const corsMiddleware          = require('./middlewares/cors').allowCrossDomain
 
 const validateDevicesGet      = require('./validation/devices/get')
@@ -67,6 +68,9 @@ const server = restify.createServer({
 /**
  * Middleware
  */
+server.use(checkClientVersion)
+server.use(checkContentType)
+server.use(corsMiddleware)
 server.use(restify.jsonBodyParser({ mapParams: true }))
 server.use(restify.acceptParser(server.acceptable))
 server.use(restify.queryParser({ mapParams: true }))
@@ -105,7 +109,6 @@ const configRoutes = function(server, handlers) {
  * Lift Server, Connect to DB & Bind Routes
  */
 server.listen(config.port, function() {
-
     mongoose.connection.on('error', function(err) {
         log.error('Mongoose default connection error: ' + err)
         process.exit(1)
