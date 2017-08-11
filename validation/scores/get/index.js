@@ -21,5 +21,8 @@ module.exports = {
             Joi.string().valid('device', 'scenario'),
             Joi.array().items(Joi.string().valid('device', 'scenario')),
         ],
+        'match': [
+            Joi.string().valid('device', 'scenario'),
+        ],
     }).required(),
 }

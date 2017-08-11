@@ -22,7 +22,7 @@ function getIdFromGroupParams(groupParams) {
     return groupId
 }
 
-function getAggregateFromParams(aggregateParams, populateParams) {
+function getAggregateFromParams(aggregateParams, populateParams, matchParams) {
     let aggregateRequest = [
         {
             $group: {
@@ -34,7 +34,16 @@ function getAggregateFromParams(aggregateParams, populateParams) {
         },
     ]
 
-    if (_.isString(populateParams.populate)) {
+    if (_.isString(matchParams.match)) {
+        aggregateRequest.push({
+            $lookup: {
+                from: 'scores',
+                localField: `_id.${matchParams.match}`,
+                foreignField: `${matchParams.match}`,
+                as: 'scores',
+            },
+        })
+    } else if (_.isString(populateParams.populate)) {
         aggregateRequest.push({
             $lookup: {
                 from: `${populateParams.populate}s`,
@@ -72,12 +81,13 @@ function getAggregateFromParams(aggregateParams, populateParams) {
 
 function reqFromParams(params) {
     const findParams = _.pick(params, ['device', 'scenario'])
+    const matchParams = _.pick(params, ['match'])
     const populateParams = _.pick(params, ['populate'])
     const aggregateParams = _.pick(params, ['group'])
     let scoreRequest
 
     if (aggregateParams.group) {
-        scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams, populateParams))
+        scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams, populateParams, matchParams))
     } else {
         scoreRequest = Score.find(findParams)
         if (populateParams.populate) {
