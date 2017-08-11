@@ -185,6 +185,21 @@ describe('Score', function() {
                 })
         })
 
+        it('should group the scores and match by devices', function(done) {
+            app
+                .get('/scores?group=device&match=device')
+                .set(requestHeaders)
+                .end(function(err, res) {
+                    expect(res.body.data.length).to.be.equal(2)
+                    expect(res.body.data[0].averageFps).to.be.equal(100)
+                    expect(res.body.data[1].averageFps).to.be.equal(100)
+                    expect(res.body.data[0].scores.length).to.be.equal(2)
+                    expect(res.body.data[1].scores.length).to.be.equal(2)
+                    expect(res.statusCode).to.be.equal(200)
+                    done()
+                })
+        })
+
         it('should group the scores by scenarios', function(done) {
             app
                 .get('/scores?group=scenario')
@@ -193,6 +208,21 @@ describe('Score', function() {
                     expect(res.body.data.length).to.be.equal(2)
                     expect(res.body.data[0].averageFps).to.be.equal(100)
                     expect(res.body.data[1].averageFps).to.be.equal(100)
+                    expect(res.statusCode).to.be.equal(200)
+                    done()
+                })
+        })
+
+        it('should group the scores and match by scenarios', function(done) {
+            app
+                .get('/scores?group=scenario&match=scenario')
+                .set(requestHeaders)
+                .end(function(err, res) {
+                    expect(res.body.data.length).to.be.equal(2)
+                    expect(res.body.data[0].averageFps).to.be.equal(100)
+                    expect(res.body.data[1].averageFps).to.be.equal(100)
+                    expect(res.body.data[0].scores.length).to.be.equal(2)
+                    expect(res.body.data[1].scores.length).to.be.equal(2)
                     expect(res.statusCode).to.be.equal(200)
                     done()
                 })
