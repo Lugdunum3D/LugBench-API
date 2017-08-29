@@ -68,8 +68,6 @@ const server = restify.createServer({
 /**
  * Middleware
  */
-server.use(checkClientVersion)
-server.use(checkContentType)
 server.use(corsMiddleware)
 server.use(restify.jsonBodyParser({ mapParams: true }))
 server.use(restify.acceptParser(server.acceptable))
@@ -88,21 +86,53 @@ server.on('uncaughtException', (req, res, route, err) => {
 
 const configRoutes = function(server, handlers) {
     // Devices
-    server.get({ path: '/devices', validation: validateDevicesGet }, [corsMiddleware], handlers.devices.index.get)
-    server.post({ path: '/devices', validation: validateDevicesPost }, [corsMiddleware, checkClientVersion], handlers.devices.index.post)
+    server.get(
+        { path: '/devices', validation: validateDevicesGet },
+        [],
+        handlers.devices.index.get
+    )
+    server.post(
+        { path: '/devices', validation: validateDevicesPost },
+        [checkClientVersion, checkContentType],
+        handlers.devices.index.post
+    )
 
-    server.get({ path: '/devices/:id', validation: validateDevicesGetId }, [corsMiddleware], handlers.devices.id.index.get)
+    server.get(
+        { path: '/devices/:id', validation: validateDevicesGetId },
+        [],
+        handlers.devices.id.index.get
+    )
 
     // Scores
-    server.get({ path: '/scores', validation: validateScoresGet }, [corsMiddleware], handlers.scores.index.get)
-    server.post({ path: '/scores', validation: validateScoresPost }, [corsMiddleware], handlers.scores.index.post)
+    server.get(
+        { path: '/scores', validation: validateScoresGet },
+        [],
+        handlers.scores.index.get
+    )
+    server.post(
+        { path: '/scores', validation: validateScoresPost },
+        [checkContentType],
+        handlers.scores.index.post
+    )
 
-    server.get({ path: '/scores/:id', validation: validateScoresGetId }, [corsMiddleware], handlers.scores.id.index.get)
+    server.get(
+        { path: '/scores/:id', validation: validateScoresGetId },
+        [],
+        handlers.scores.id.index.get
+    )
 
     // Scenarios
-    server.get({ path: '/scenarios', validation: validateScenariosGet }, [corsMiddleware], handlers.scenarios.index.get)
+    server.get(
+        { path: '/scenarios', validation: validateScenariosGet },
+        [],
+        handlers.scenarios.index.get
+    )
 
-    server.get({ path: '/scenarios/:id', validation: validateScenariosGetId }, [corsMiddleware], handlers.scenarios.id.index.get)
+    server.get(
+        { path: '/scenarios/:id', validation: validateScenariosGetId },
+        [],
+        handlers.scenarios.id.index.get
+    )
 }
 
 /**
