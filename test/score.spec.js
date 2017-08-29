@@ -24,7 +24,7 @@ const score160            = require('../assets/mocks/scores/160.json')
 const pageUrlPattern      = /^(http:\/\/localhost:5000\/scores\?per_page=.&page=.)/
 const requestHeaders      = {
     'content-type': 'application/json',
-    'user-agent': 'LugBench/0.1.0',
+    'x-lugbench-version': 'LugBench/0.1.0',
 }
 
 describe('Score', function() {

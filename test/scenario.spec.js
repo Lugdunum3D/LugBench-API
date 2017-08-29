@@ -17,7 +17,7 @@ const scenarioEnterprise  = require('../assets/mocks/scenarios/enterprise.json')
 const pageUrlPattern      = /^(http:\/\/localhost:5000\/scenarios\?per_page=.&page=.)/
 const requestHeaders      = {
     'content-type': 'application/json',
-    'user-agent': 'LugBench/0.1.0',
+    'x-lugbench-version': 'LugBench/0.1.0',
 }
 
 describe('Scenario', function() {
