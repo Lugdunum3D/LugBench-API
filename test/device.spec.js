@@ -18,7 +18,7 @@ const device960M      = require('../assets/mocks/devices/960M.json')
 const pageUrlPattern  = /^(http:\/\/localhost:5000\/devices\?per_page=.&page=.)/
 const requestHeaders  = {
     'content-type': 'application/json',
-    'user-agent': 'LugBench/0.1.0',
+    'x-lugbench-version': 'LugBench/0.1.0',
 }
 
 describe('Device', function() {
