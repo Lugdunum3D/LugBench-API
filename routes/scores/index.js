@@ -103,6 +103,14 @@ function reqFromParams(params) {
 module.exports.get = function get(req, res, next) {
     reqFromParams(req.params).exec(function(err, scores) {
 
+        if (_.pick(req.params, ['group'])) {
+            const maxScore = _.maxBy(scores, 'averageFps')
+            _.map(scores, function (score) {
+                score.maxAverageFps = maxScore.averageFps
+                return score
+            })
+        }
+
         if (err) {
             if (process.env.NODE_ENV !== 'test') {
                 log.error(err)
