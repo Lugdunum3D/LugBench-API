@@ -124,6 +124,15 @@ module.exports.get = function get(req, res, next) {
             })
         }
 
+        const osParams = _.pick(req.params, ['os'])
+        if (_.isString(osParams.os)) {
+            scores = _.map(scores, function (score) {
+                if (score.device.os === osParams.os) {
+                    return score
+                }
+            })
+        }
+
         if (err) {
             if (process.env.NODE_ENV !== 'test') {
                 log.error(err)
