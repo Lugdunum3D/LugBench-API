@@ -22,7 +22,7 @@ function getIdFromGroupParams(groupParams) {
     return groupId
 }
 
-function getAggregateFromParams(aggregateParams, populateParams, matchParams, osParams) {
+function getAggregateFromParams(aggregateParams, populateParams, matchParams) {
     let aggregateRequest = [
         {
             $group: {
@@ -58,15 +58,6 @@ function getAggregateFromParams(aggregateParams, populateParams, matchParams, os
                 preserveNullAndEmptyArrays: true,
             },
         })
-        if (populateParams.populate === 'device' && _.isString(osParams.os)) {
-            aggregateRequest.push({
-                $match: {
-                    'device.os': {
-                        $eq: `${osParams.os}`,
-                    },
-                },
-            })
-        }
     } else if (_.isArray(populateParams.populate)) {
         _.forEach(populateParams.populate, function(value) {
             aggregateRequest.push({
@@ -90,17 +81,13 @@ function getAggregateFromParams(aggregateParams, populateParams, matchParams, os
 
 function reqFromParams(params) {
     const findParams = _.pick(params, ['device', 'scenario'])
-    const osParams = _.pick(params, ['os'])
     const matchParams = _.pick(params, ['match'])
     const populateParams = _.pick(params, ['populate'])
     const aggregateParams = _.pick(params, ['group'])
     let scoreRequest
 
     if (aggregateParams.group) {
-        scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams,
-            populateParams,
-            matchParams,
-            osParams))
+        scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams, populateParams, matchParams))
     } else {
         scoreRequest = Score.find(findParams)
         if (populateParams.populate) {
@@ -121,15 +108,6 @@ module.exports.get = function get(req, res, next) {
             _.map(scores, function (score) {
                 score.maxAverageFps = maxScore.averageFps
                 return score
-            })
-        }
-
-        const osParams = _.pick(req.params, ['os'])
-        if (_.isString(osParams.os)) {
-            scores = _.map(scores, function (score) {
-                if (score.device.os === osParams.os) {
-                    return score
-                }
             })
         }
 
