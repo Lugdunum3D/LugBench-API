@@ -24,8 +24,5 @@ module.exports = {
         'match': [
             Joi.string().valid('device', 'scenario'),
         ],
-        'os': [
-            Joi.string().valid('Windows', 'Linux', 'Android'),
-        ],
     }).required(),
 }
