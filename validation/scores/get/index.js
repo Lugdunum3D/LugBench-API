@@ -13,6 +13,10 @@ module.exports = {
             Joi.objectId(),
             Joi.array().items(Joi.objectId()),
         ],
+        'userId': [
+            Joi.string().length(28),
+            Joi.array().items(Joi.string().length(28)),
+        ],
         'group': [
             Joi.string().valid('device', 'scenario'),
             Joi.array().items(Joi.string().valid('device', 'scenario')),
