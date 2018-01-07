@@ -22,17 +22,31 @@ function getIdFromGroupParams(groupParams) {
     return groupId
 }
 
-function getAggregateFromParams(aggregateParams, populateParams, matchParams, osParams) {
-    let aggregateRequest = [
-        {
-            $group: {
-                _id: getIdFromGroupParams(aggregateParams.group),
-                averageFps: {
-                    $avg: '$averageFps',
+function getAggregateFromParams(aggregateParams,
+    populateParams,
+    matchParams,
+    osParams,
+    findParams) {
+    let aggregateRequest = []
+
+    if (_.includes(Object.keys(findParams), 'userId')) {
+        aggregateRequest.push({
+            $match: {
+                userId: {
+                    $eq: `${findParams.userId}`,
                 },
             },
+        })
+    }
+
+    aggregateRequest.push({
+        $group: {
+            _id: getIdFromGroupParams(aggregateParams.group),
+            averageFps: {
+                $avg: '$averageFps',
+            },
         },
-    ]
+    })
 
     if (_.isString(matchParams.match)) {
         aggregateRequest.push({
@@ -89,7 +103,7 @@ function getAggregateFromParams(aggregateParams, populateParams, matchParams, os
 }
 
 function reqFromParams(params) {
-    const findParams = _.pick(params, ['device', 'scenario'])
+    const findParams = _.pick(params, ['device', 'scenario', 'userId'])
     const osParams = _.pick(params, ['os'])
     const matchParams = _.pick(params, ['match'])
     const populateParams = _.pick(params, ['populate'])
@@ -100,7 +114,8 @@ function reqFromParams(params) {
         scoreRequest = Score.aggregate(getAggregateFromParams(aggregateParams,
             populateParams,
             matchParams,
-            osParams))
+            osParams,
+            findParams))
     } else {
         scoreRequest = Score.find(findParams)
         if (populateParams.populate) {
