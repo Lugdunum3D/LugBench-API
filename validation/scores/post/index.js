@@ -11,5 +11,6 @@ module.exports = {
         'nbFrames': Joi.number().required(),
         'averageFps': Joi.number().required(),
         'date': Joi.date().iso(),
+        'userId': Joi.string().length(28),
     }).required(),
 }

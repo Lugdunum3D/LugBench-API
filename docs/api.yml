@@ -1,0 +1,341 @@
+swagger: '2.0'
+info:
+  description: Our API for the Lugdunum solution.
+  version: 1.0.0
+  title: Lugbench-API
+  contact:
+    email: lugdunum_2018@labeip.epitech.eu
+
+tags:
+  - name: devices
+  - name: scenarios
+  - name: scores
+
+paths:
+
+  /devices:
+  
+    get:
+      tags:
+      - devices
+      summary: return an array containing all existing devices
+      operationId: getDevices
+      description: |
+        By passing in the appropriate options, you can search for
+        devices in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: name
+        description: search the devices by name
+        required: false
+        type: string
+      - in: query
+        name: os
+        description: search the devices by os
+        required: false
+        type: string
+        enum: [Windows, Linux, Android]
+      - in: query
+        name: driverVersion
+        description: search the devices by driverVersion
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: vendorId
+        description: search the devices by vendorId
+        required: false
+        type: integer
+        format: int32
+      - in: query
+        name: deviceId
+        description: search the devices by deviceId
+        required: false
+        type: integer
+        format: int32
+      responses:
+        200:
+          description: search device matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Device'
+        400:
+          description: bad input parameter
+          
+    post:
+      tags:
+      - devices
+      summary: adds a device item
+      operationId: addDevice
+      description: Adds a device to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: device
+        description: Device to add
+        schema:
+          $ref: '#/definitions/Device'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+          
+  /devices/{id}:
+  
+    get:
+      tags:
+      - devices
+      summary: return a device
+      operationId: getDeviceId
+      description: |
+        By passing in the appropriate options, you can get a device in the system
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: device id
+        required: true
+        type: string
+      responses:
+        200:
+          description: search devices matching criteria
+          schema:
+            $ref: '#/definitions/Device'
+        400:
+          description: bad input parameter
+        404:
+          description: device not found
+          
+  /scenarios:
+  
+    get:
+      tags:
+      - scenarios
+      summary: return an array containing all existing scenarios
+      operationId: getScenarios
+      description: |
+        By passing in the appropriate options, you can search for
+        scenarios in the system
+      produces:
+      - application/json
+      responses:
+        200:
+          description: search devices matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Scenario'
+              
+  /scenarios/{id}:
+  
+    get:
+      tags:
+      - scenarios
+      summary: return a scenario
+      operationId: getScenario
+      description: |
+        By passing in the appropriate options, you can get a scenario in the system
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: scenario id
+        required: true
+        type: string
+      responses:
+        200:
+          description: search scenario matching criteria
+          schema:
+            $ref: '#/definitions/Device'
+        400:
+          description: bad input parameter
+        404:
+          description: scenario not found
+          
+  /scores:
+  
+    get:
+      tags:
+      - scores
+      summary: return an array containing all existing scores
+      operationId: getScores
+      description: |
+        By passing in the appropriate options, you can search for
+        scores in the system
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: device
+        description: search the scores by device id
+        required: false
+        type: string
+        format: uuid
+      - in: query
+        name: scenario
+        description:  search the scores by scenario id
+        required: false
+        type: string
+        format: uuid
+      - in: query
+        name: group
+        description: group the scores 
+        required: false
+        type: string
+        enum: [device, scenario]
+      - in: query
+        name: populate
+        description: populate the scores 
+        required: false
+        type: string
+        enum: [device, scenario]
+      responses:
+        200:
+          description: search device matching criteria
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Score'
+        400:
+          description: bad input parameter
+
+    post:
+    
+      tags:
+      - scores
+      summary: adds a score item
+      operationId: addScore
+      description: Adds a score to the system
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: score
+        description: Score to add
+        schema:
+          $ref: '#/definitions/Score'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+          
+  /scores/{id}:
+  
+    get:
+      tags:
+      - scores
+      summary: return a score
+      operationId: getScore
+      description: |
+        By passing in the appropriate options, you can get a score in the system
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        description: score id
+        required: true
+        type: string
+      responses:
+        200:
+          description: search score matching criteria
+          schema:
+            $ref: '#/definitions/Score'
+        400:
+          description: bad input parameter
+        404:
+          description: scenario not found
+          
+    
+definitions:
+
+  Device:
+    type: object
+    required:
+    - name
+    - os
+    - deviceId
+    - vendorId
+    - driverVersion
+    - vulkanInfo
+    properties:
+      name:
+        type: string
+        example: Intel(R) HD Graphics 530 (Skylake GT2)
+      os:
+        type: string
+        example: Linux
+      deviceId:
+        type: number
+        example: 5159
+      vendorId:
+        type: number
+        example: 4318
+      driverVersion:
+        type: number
+        example: 378520
+      vulkanInfo:
+        type: object
+        
+  Scenario:
+    type: object
+    required:
+    - name
+    - description
+    properties:
+      name:
+        type: string
+        example: Force scene
+      description:
+        type: string
+        example: Suspendisse accumsan tortor quis turpis.
+        
+  Score:
+    type: object
+    required:
+    - device
+    - scenario
+    - nbFrames
+    - averageFps
+    properties:
+      device:
+        type: string
+        format: uuid
+        example: 5947062253584f20ea854026
+      scenario:
+        type: string
+        format: uuid
+        example: 59836a7600d95299744f9275
+      nbFrames:
+        type: number
+        example: 40
+      averageFps:
+        type: number
+        example: 4000
+    
+# Added by API Auto Mocking Plugin
+host: virtserver.swaggerhub.com
+# basePath: /
+# schemes:
+#  - http
+# Added by API Auto Mocking Plugin
+basePath: /lugdunum/Lugbench-API/1.0.0
+schemes:
+ - https
+ - http
